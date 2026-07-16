@@ -1,0 +1,16 @@
+:root {
+  --bg: #0a0a0d;
+  --surface: #18161f;
+  --surface-border: #2b2733;
+
+  --text-primary: #f2efe9;
+  --text-muted: #8b8794;
+
+  --accent: #e4362f;
+
+  --radius: 10px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+}
