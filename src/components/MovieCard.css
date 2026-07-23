@@ -1,5 +1,7 @@
 .movie-card {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   background: var(--surface);
   border: 1px solid var(--surface-border);
   border-radius: var(--radius);
@@ -16,12 +18,15 @@
   display: block;
   width: 100%;
   aspect-ratio: 2 / 3;
-  object-fit: cover;      
+  object-fit: cover;
   background-color: var(--surface);
 }
 
 .movie-card__body {
   padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .movie-card__title {
@@ -40,4 +45,20 @@
   margin: 0;
   color: var(--text-muted);
   font-size: 0.85rem;
+}
+
+.movie-card__genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: var(--space-2);
+}
+
+.genre-chip {
+  font-size: 0.71rem;
+  padding: 2px 5px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--surface-border);
+  color: var(--text-muted);
 }

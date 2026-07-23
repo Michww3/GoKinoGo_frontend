@@ -1,0 +1,19 @@
+.genre-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: var(--space-5) var(--space-5) 0;
+}
+
+.genre-filter .genre-chip {
+  cursor: pointer;
+  background: transparent;
+  font-size: 0.85rem;
+  padding: 6px 14px;
+}
+
+.genre-chip--active {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: white !important;
+}

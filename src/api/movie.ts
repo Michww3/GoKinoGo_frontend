@@ -1,4 +1,6 @@
 import axios from "axios";
+import { Genre } from "./genre";
+import { apiClient } from "./client";
 
 export interface Movie{
     id: number,
@@ -7,9 +9,10 @@ export interface Movie{
     releaseDate: string,
     length: string,
     posterUrl: string,
+    genres: Genre[],
 }
 
 export const MovieApi = {
-    getAll: () => axios.get<Movie[]>("/api/movie").then(res => res.data),
-    getById: (id: number) => axios.get<Movie>(`/api/movie/${id}`).then(res => res.data)
+    getAll: () => apiClient.get<Movie[]>("/movie").then(res => res.data),
+    getById: (id: number) => apiClient.get<Movie>(`/movie/${id}`).then(res => res.data)
 };
