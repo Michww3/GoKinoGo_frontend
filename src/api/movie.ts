@@ -13,6 +13,6 @@ export interface Movie{
 }
 
 export const MovieApi = {
-    getAll: () => apiClient.get<Movie[]>("/movie").then(res => res.data),
-    getById: (id: number) => apiClient.get<Movie>(`/movie/${id}`).then(res => res.data)
+    getAll: () => apiClient.get<Movie[]>("/movies").then(res => res.data),
+    getById: (id: number) => apiClient.get<Movie>(`/movies/${id}`).then(res => res.data)
 };

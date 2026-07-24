@@ -7,6 +7,6 @@ export interface Genre {
 }
 
 export const GenreApi = {
-    getAll: () => apiClient.get<Genre[]>("/genre").then((response) => response.data),
-    getById: (id: number) => apiClient.get<Genre>(`/genre/${id}`).then((response) => response.data),
+    getAll: () => apiClient.get<Genre[]>("/genres").then((response) => response.data),
+    getById: (id: number) => apiClient.get<Genre>(`/genres/${id}`).then((response) => response.data),
 };
