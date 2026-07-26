@@ -30,4 +30,10 @@ export const AuthApi = {
     apiClient.post<AuthResponse>("/Auth/login", payload).then((res) => res.data),
   register: (payload: RegisterPayload) =>
     apiClient.post<AuthResponse>("/Auth/register", payload).then((res) => res.data),
+  me: () =>
+    apiClient.get<User>("Auth/me").then((res) => res.data),
+  checkEmail: (email: string) =>
+    apiClient.get<{ exists: boolean }>(`/Users/check-email?email=${encodeURIComponent(email)}`).then((res) => res.data),
+  checkUserName: (userName: string) =>
+    apiClient.get<{ exists: boolean }>(`/Users/check-username?userName=${encodeURIComponent(userName)}`).then((res) => res.data),
 };

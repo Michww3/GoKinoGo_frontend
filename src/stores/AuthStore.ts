@@ -34,6 +34,21 @@ export const AuthStore = types
       tokenStorage.clear();
       self.user = null;
     },
+    loadCurrentUser: flow(function* () {
+      const token = tokenStorage.get();
+
+      if (!token) {
+        return;
+      }
+
+      try {
+        const user = yield AuthApi.me();
+        self.user = user;
+      } catch {
+        tokenStorage.clear();
+        self.user = null;
+      }
+    }),
   }));
 
 export type AuthStoreInstance = Instance<typeof AuthStore>;

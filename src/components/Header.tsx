@@ -32,18 +32,24 @@ export const Header = observer(function Header() {
         onChange={(e) => handleSearch(e.target.value)}
       />
 
-      <Link to="/profile" className="header__profile" aria-label="Профиль">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8">
-          <circle cx="12" cy="8" r="4" />
-          <path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6" />
-        </svg>
-      </Link>
       {auth.isAuthenticated ? (
-        <button onClick={() => auth.logout()}>Выйти, {auth.user?.name}</button>
+        <>
+          <button className="header__button" onClick={() => auth.logout()}>
+            Выйти, {auth.user?.name}
+          </button>
+          <Link to="/profile" className="header__profile" aria-label="Профиль">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6" />
+            </svg>
+          </Link>
+        </>
       ) :
-      (
-        <button onClick={() => auth.login("user@example.com", "string")}>Войти</button>
-      )}
+        (
+          <Link to="/login" className="header__button">
+            Войти
+          </Link>
+        )}
     </header>
   );
 })
