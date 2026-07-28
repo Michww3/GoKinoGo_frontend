@@ -1,16 +1,16 @@
 import axios from "axios";
 
 
-export const apiClient =  axios.create({
+export const apiClient = axios.create({
     baseURL: "/api",
 });
 
 const TOKEN_KEY = "token";
 
 export const tokenStorage = {
-  get: () => localStorage.getItem(TOKEN_KEY),
-  set: (token: string) => localStorage.setItem(TOKEN_KEY, token),
-  clear: () => localStorage.removeItem(TOKEN_KEY),
+    get: () => localStorage.getItem(TOKEN_KEY),
+    set: (token: string) => localStorage.setItem(TOKEN_KEY, token),
+    clear: () => localStorage.removeItem(TOKEN_KEY),
 };
 
 apiClient.interceptors.request.use((config) => {

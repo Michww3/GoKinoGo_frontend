@@ -13,6 +13,7 @@ const User = types.model("User", {
 export const AuthStore = types
   .model("AuthStore", {
     user: types.maybeNull(User),
+    isInitialized: types.optional(types.boolean, false),
   })
   .views((self) => ({
     get isAuthenticated() {
@@ -38,6 +39,7 @@ export const AuthStore = types
       const token = tokenStorage.get();
 
       if (!token) {
+        self.isInitialized = true;
         return;
       }
 
@@ -47,6 +49,8 @@ export const AuthStore = types
       } catch {
         tokenStorage.clear();
         self.user = null;
+      } finally {
+        self.isInitialized = true;
       }
     }),
   }));
