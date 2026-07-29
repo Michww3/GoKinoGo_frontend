@@ -35,11 +35,3 @@
   outline: none;
   border-color: var(--accent);
 }
-
-.header__user-menu {
-  margin-left: auto;
-  background: none;
-  border: 1px solid var(--surface-border);
-  color: var(--text-primary);
-  cursor: pointer;
-}
