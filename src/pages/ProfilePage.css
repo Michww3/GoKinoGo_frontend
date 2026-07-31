@@ -1,0 +1,121 @@
+.profile-page {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: var(--space-5);
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--radius);
+    padding: var(--space-5);
+    margin-top: var(--space-4);
+}
+
+.profile-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.profile-form input {
+    background: var(--bg);
+    border: 1px solid var(--surface-border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.profile-form input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.profile-form__button[type="submit"] {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.profile-form__button[type="submit"]:hover {
+    background: var(--accent-hover);
+}
+
+.profile-form__button--saving[type="submit"] {
+    background: var(--accent);
+    cursor: wait;
+}
+
+.profile-form__button--idle[type="submit"] {
+    background: var(--accent);
+}
+
+.profile-form__button--saved[type="submit"] {
+    background: #16a34a;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.profile-form__error {
+    color: #ff6b6b;
+    font-size: 0.85rem;
+}
+
+.profile-danger {
+    margin-top: var(--space-5);
+    padding: var(--space-4);
+    border: 1px solid #7a1f1c;
+    border-radius: var(--radius);
+}
+
+.profile-danger h2 {
+    margin: 0 0 var(--space-3);
+    font-size: 1rem;
+    color: #ff6b6b;
+}
+
+.profile-danger__btn {
+    background: transparent;
+    border: 1px solid red;
+    color: red;
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.profile-danger__btn:hover{
+    color:white;
+    background-color: red;
+}
+
+.profile-danger__confirm {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+}
+
+.profile-danger__reject {
+    background: transparent;
+    border: 1px solid green;
+    color: green;
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.profile-danger__reject:hover{
+    color: white;
+    background-color: green;
+}

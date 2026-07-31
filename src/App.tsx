@@ -7,6 +7,8 @@ import { StoreProvider, useStore } from "./stores/StoreContext";
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { observer } from "mobx-react-lite";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { ProfilePage } from "./pages/ProfilePage";
 
 export const App = observer(function App() {
     const { auth } = useStore();
@@ -26,6 +28,14 @@ export const App = observer(function App() {
                 <Route path="/movies/:id" element={<MovieDetailsPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route
+                    path="/profile"
+                    element={
+                        <ProtectedRoute>
+                            <ProfilePage />
+                        </ProtectedRoute>
+                    }
+                />
             </Routes>
         </BrowserRouter>
     );

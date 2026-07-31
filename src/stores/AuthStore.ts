@@ -1,5 +1,6 @@
 import { AuthApi } from "@/api/auth";
 import { tokenStorage } from "@/api/client";
+import { UpdateUserPayload, UserApi } from "@/api/user";
 import { flow, Instance, types } from "mobx-state-tree";
 
 const User = types.model("User", {
@@ -52,6 +53,11 @@ export const AuthStore = types
       } finally {
         self.isInitialized = true;
       }
+    }),
+    updateProfile: flow(function* (payload: UpdateUserPayload) {
+      if (!self.user) return;
+      yield UserApi.update(self.user.id, payload);
+      self.user = { ...self.user, ...payload };
     }),
   }));
 
