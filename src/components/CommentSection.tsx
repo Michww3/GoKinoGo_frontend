@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { SubmitEvent, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores/StoreContext";
 import { CommentApi, type Comment } from "@/api/comment";
@@ -19,7 +19,7 @@ export const CommentSection = observer(function CommentSection({ movieId }: { mo
             .finally(() => setIsLoading(false));
     }, [movieId]);
 
-    const handleSubmit = async (e: FormEvent) => {
+    const handleSubmit = async (e: SubmitEvent) => {
         e.preventDefault();
         if (!text.trim()) return;
 
@@ -35,7 +35,6 @@ export const CommentSection = observer(function CommentSection({ movieId }: { mo
     const handleLike = async (comment: Comment) => {
         if (!auth.isAuthenticated) return;
 
-        // 1. Сразу меняем UI, не дожидаясь ответа сервера
         setComments((prev) =>
             prev.map((c) =>
                 c.id === comment.id
@@ -48,11 +47,9 @@ export const CommentSection = observer(function CommentSection({ movieId }: { mo
             )
         );
 
-        // 2. Отправляем запрос по-настоящему
         try {
             await CommentApi.toggleLike(movieId, comment.id);
         } catch {
-            // 3. Если сервер отказал — откатываем к состоянию ДО клика
             setComments((prev) => prev.map((c) => (c.id === comment.id ? comment : c)));
         }
     };
@@ -63,7 +60,7 @@ export const CommentSection = observer(function CommentSection({ movieId }: { mo
         try {
             await CommentApi.remove(movieId, commentId);
         } catch {
-            setComments(prevComments); // не удалилось на сервере — вернуть как было
+            setComments(prevComments);
         }
     };
 
@@ -118,7 +115,7 @@ export const CommentSection = observer(function CommentSection({ movieId }: { mo
                                     >
                                         ♥ {comment.likesCount}
                                     </button>
-                                    {auth.user?.id === comment.owner.id && (
+                                    {(auth.user?.id === comment.owner.id || auth.user?.role === "Admin") && (
                                         <button className="comment__delete" onClick={() => handleDelete(comment.id)}>
                                             Удалить
                                         </button>
