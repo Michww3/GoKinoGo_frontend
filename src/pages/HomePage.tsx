@@ -4,10 +4,12 @@ import { type Movie, MovieApi } from "../api/movie";
 import { Link, useSearchParams } from "react-router-dom";
 import { MovieCard } from "@/components/MovieCard";
 import { Genre, GenreApi } from "@/api/genre";
+import { HeroCarousel } from "@/components/HeroCarousel";
 
 export function HomePage() {
     const [movies, setMovies] = useState<Movie[]>([]);
     const [genres, setGenres] = useState<Genre[]>([]);
+    const [heroMovies, setHeroMovies] = useState<Movie[]>([]);
     const [activeGenreId, setActiveGenreId] = useState<number | null>(null);
     const [searchParams] = useSearchParams();
     const query = searchParams.get("q")?.toLowerCase() ?? "";
@@ -15,6 +17,7 @@ export function HomePage() {
     useEffect(() => {
         MovieApi.getAll().then(setMovies);
         GenreApi.getAll().then(setGenres);
+        MovieApi.getHero().then(setHeroMovies);
     }, []);
 
     const visibleMovies = movies
@@ -23,6 +26,7 @@ export function HomePage() {
 
     return (
         <div>
+            <HeroCarousel movies={heroMovies} />
             <div className="genre-filter">
                 <button
                     className={`genre-chip ${activeGenreId === null ? "genre-chip--active" : ""}`}

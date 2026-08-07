@@ -103,7 +103,7 @@ export const CommentSection = observer(function CommentSection({ movieId }: { mo
                                 <div className="comment__head">
                                     <span className="comment__author">{comment.owner.name}</span>
                                     <span className="comment__date">
-                                        {new Date(comment.creationDate).toLocaleDateString()}
+                                        {new Date(comment.creationDate).toLocaleString()}
                                     </span>
                                 </div>
                                 <p className="comment__text">{comment.content}</p>
