@@ -35,3 +35,10 @@
   outline: none;
   border-color: var(--accent);
 }
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}

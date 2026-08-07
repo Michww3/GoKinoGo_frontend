@@ -1,16 +1,26 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 import type { Movie } from "@/api/movie";
+import { useStore } from "@/stores/StoreContext";
 import { formatLength } from "@/utils/format";
 import "./HeroCarousel.css";
 
-export function HeroCarousel({ movies }: { movies: Movie[] }) {
+export const HeroCarousel = observer(function HeroCarousel({ movies }: { movies: Movie[] }) {
+  const { cart } = useStore();
   const [index, setIndex] = useState(0);
+  const [justAddedId, setJustAddedId] = useState<number | null>(null);
 
   if (movies.length === 0) return null;
 
   const goTo = (i: number) => {
     setIndex((i + movies.length) % movies.length);
+  };
+
+  const handleAddToCart = (movie: Movie) => {
+    cart.addItem({ id: movie.id, name: movie.name, posterUrl: movie.posterUrl, price: movie.price });
+    setJustAddedId(movie.id);
+    setTimeout(() => setJustAddedId(null), 1500);
   };
 
   return (
@@ -30,9 +40,15 @@ export function HeroCarousel({ movies }: { movies: Movie[] }) {
 
             <p className="hero__description">{movie.description}</p>
 
-            <Link to={`/movies/${movie.id}`} className="hero__cta">
-              Подробнее →
-            </Link>
+            <div className="hero__actions">
+              <span className="hero__price">{movie.price} BYN</span>
+              <Link to={`/movies/${movie.id}`} className="hero__cta hero__cta--outline">
+                Подробнее →
+              </Link>
+              <button className="hero__cta hero__cta--solid" onClick={() => handleAddToCart(movie)}>
+                {justAddedId === movie.id ? "Добавлено ✓" : "В корзину"}
+              </button>
+            </div>
           </div>
 
           <div className="hero__poster-wrap">
@@ -64,4 +80,4 @@ export function HeroCarousel({ movies }: { movies: Movie[] }) {
       )}
     </section>
   );
-}
+});

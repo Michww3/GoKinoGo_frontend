@@ -1,33 +1,59 @@
-import { Genre } from "@/api/genre";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { observer } from "mobx-react-lite";
+import type { Movie } from "@/api/movie";
+import { useStore } from "@/stores/StoreContext";
 import "./MovieCard.css";
 
 interface MovieCardProps {
-  posterUrl: string;
-  title: string;
-  releaseDate: string;
-  genres: Genre[];
+  movie: Movie;
 }
 
-export function MovieCard({ posterUrl, title, releaseDate, genres }: MovieCardProps) {
+export const MovieCard = observer(function MovieCard({ movie }: MovieCardProps) {
+  const { cart } = useStore();
+  const [justAdded, setJustAdded] = useState(false);
+
+  const handleAddToCart = () => {
+    cart.addItem({ id: movie.id, name: movie.name, posterUrl: movie.posterUrl, price: movie.price });
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 1500);
+  };
+
   return (
     <div className="movie-card">
-      <img className="movie-card__poster" src={posterUrl} alt={title} />
+      <div className="movie-card__poster-wrap">
+        <img className="movie-card__poster" src={movie.posterUrl} alt={movie.name} />
+
+        <div className="movie-card__overlay">
+          <h3 className="movie-card__overlay-title">{movie.name}</h3>
+          <div className="movie-card__overlay-actions">
+            <Link to={`/movies/${movie.id}`} className="movie-card__btn movie-card__btn--outline">
+              Подробнее
+            </Link>
+            <button className="movie-card__btn movie-card__btn--solid" onClick={handleAddToCart}>
+              {justAdded ? "Добавлено ✓" : "В корзину"}
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div className="movie-card__body">
-        <h3 className="movie-card__title">{title}</h3>
-        <p className="movie-card__date">{releaseDate}</p>
-        {genres && genres.length > 0 && (
+        <h3 className="movie-card__title">{movie.name}</h3>
+        <div className="movie-card__row">
+          <p className="movie-card__date">{new Date(movie.releaseDate).toLocaleDateString()}</p>
+          <p className="movie-card__price">{movie.price} BYN</p>
+        </div>
+        {movie.genres.length > 0 && (
           <div className="movie-card__genres">
-            {genres.slice(0, 3).map((genre) => (
+            {movie.genres.slice(0, 3).map((genre) => (
               <span key={genre.id} className="genre-chip">
                 {genre.name}
               </span>
             ))}
-            {genres.length > 3 && (
-              <span className="genre-chip">+{genres.length - 3}</span>
-            )}
+            {movie.genres.length > 3 && <span className="genre-chip">+{movie.genres.length - 3}</span>}
           </div>
         )}
       </div>
     </div>
   );
-}
+});

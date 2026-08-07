@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores/StoreContext";
 import ProfileIcon from "@/img/profile.svg";
 import { UserMenu } from "./UserMenu";
+import { CartButton } from "./CartButton";
 
 export const Header = observer(function Header() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -34,7 +35,12 @@ export const Header = observer(function Header() {
         value={query}
         onChange={(e) => handleSearch(e.target.value)}
       />
-      <UserMenu/>
+      
+      <div className="header__actions">
+        <CartButton />
+        <UserMenu />
+      </div>
+
     </header>
   );
 })

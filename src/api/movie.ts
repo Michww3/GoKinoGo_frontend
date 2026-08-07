@@ -1,10 +1,10 @@
-import axios from "axios";
 import { Genre } from "./genre";
 import { apiClient } from "./client";
 
 export interface Movie {
     id: number,
     name: string,
+    price: number,
     description: string,
     releaseDate: string,
     length: string,

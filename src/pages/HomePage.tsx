@@ -47,14 +47,7 @@ export function HomePage() {
 
             <div className="movie-grid">
                 {visibleMovies.map((movie) => (
-                    <Link key={movie.id} to={`/movies/${movie.id}`}>
-                        <MovieCard
-                            posterUrl={movie.posterUrl}
-                            title={movie.name}
-                            releaseDate={new Date(movie.releaseDate).toLocaleDateString()}
-                            genres={movie.genres}
-                        />
-                    </Link>
+                    <MovieCard movie={movie} />
                 ))}
             </div>
         </div>
