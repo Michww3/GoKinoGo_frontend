@@ -12,9 +12,25 @@ export interface Movie {
     genres: Genre[],
 }
 
+export interface MovieCollection {
+    id: number;
+    name: string;
+    type: string;
+    isActive: boolean;
+    items: MovieCollectionItem[];
+}
+
+export interface MovieCollectionItem {
+    position: number;
+    movie: Movie;
+}
+
 export const MovieApi = {
     getAll: () => apiClient.get<Movie[]>("/movies").then(res => res.data),
     getById: (id: number) => apiClient.get<Movie>(`/movies/${id}`).then(res => res.data),
-    getHero: () => apiClient.get<Movie[]>("/MovieCollections/1/movies").then((res) => res.data),
-
+    getHero: async () => 
+        {
+            const response = await apiClient.get<MovieCollection>("/MovieCollections/1");
+            return response.data.items.map(item => item.movie); 
+        }
 };
