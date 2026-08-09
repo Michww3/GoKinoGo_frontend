@@ -47,7 +47,7 @@ export function HomePage() {
 
             <div className="movie-grid">
                 {visibleMovies.map((movie) => (
-                    <MovieCard movie={movie} />
+                    <MovieCard key={movie.id} movie={movie} />
                 ))}
             </div>
         </div>
