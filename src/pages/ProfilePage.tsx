@@ -15,10 +15,10 @@ export const ProfilePage = observer(function ProfilePage() {
     const [error, setError] = useState<string | null>(null);
     const [confirmingDelete, setConfirmingDelete] = useState(false);
 
-    const update = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    const update = (key: keyof typeof form) => (e: ChangeEvent<HTMLInputElement>) =>
         setForm((f) => ({ ...f, [key]: e.target.value }));
 
-    const handleSubmit = async (e: ChangeEvent) => {
+    const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError(null);
         setStatus("saving");

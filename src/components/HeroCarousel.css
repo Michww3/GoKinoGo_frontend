@@ -1,7 +1,7 @@
 .hero {
   position: relative;
   width: 100%;
-  min-height: 480px;
+  min-height: 600px;
   border-radius: var(--radius);
   overflow: hidden;
   background: linear-gradient(135deg, #15131b, var(--bg));
@@ -31,7 +31,7 @@
 }
 
 .hero__title {
-  font-size: 2.75rem;
+  font-size: 3rem;
   margin: 0 0 var(--space-3);
   line-height: 1.05;
 }
@@ -45,13 +45,14 @@
 }
 
 .hero__meta-dot {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
 }
 
 .hero__description {
   color: var(--text-secondary, #b7b2c2);
-  max-width: 46ch;
+  max-width: 60ch;
   line-height: 1.6;
+  font-size: 1.1rem;
   margin-bottom: var(--space-4);
   display: -webkit-box;
   line-clamp: 4;
@@ -68,7 +69,7 @@
 }
 
 .hero__price {
-  font-size: 1.3rem;
+  font-size: 1.9rem;
   font-weight: 700;
   color: var(--accent);
   margin-right: 4px;
@@ -79,10 +80,10 @@
   align-items: center;
   justify-content: center;
 
-  padding: 10px 22px;
+  padding: 12px 24px;
   border-radius: 999px;
 
-  font-size: 16px;
+  font-size: 18px;
   font-family: inherit;
   font-weight: 600;
   line-height: 1;

@@ -20,6 +20,9 @@ export const AuthStore = types
     get isAuthenticated() {
       return self.user !== null;
     },
+    get isAdmin() {
+      return self.user?.role.toLowerCase() === "admin";
+    }
   }))
   .actions((self) => ({
     login: flow(function* (email: string, password: string) {

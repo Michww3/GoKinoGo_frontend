@@ -19,7 +19,7 @@ export const CommentSection = observer(function CommentSection({ movieId }: { mo
             .finally(() => setIsLoading(false));
     }, [movieId]);
 
-    const handleSubmit = async (e: SubmitEvent) => {
+    const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!text.trim()) return;
 
@@ -94,36 +94,40 @@ export const CommentSection = observer(function CommentSection({ movieId }: { mo
                 <p className="comments__empty">Отзывов пока нет — станьте первым.</p>
             ) : (
                 <ul className="comments__list">
-                    {comments.map((comment) => (
-                        <li key={comment.id} className="comment">
-                            <div className="comment__avatar">
-                                {comment.owner.name.slice(0, 1).toUpperCase()}
-                            </div>
-                            <div className="comment__body">
-                                <div className="comment__head">
-                                    <span className="comment__author">{comment.owner.name}</span>
-                                    <span className="comment__date">
-                                        {new Date(comment.creationDate).toLocaleString()}
-                                    </span>
+                    {comments.map((comment) => {
+                        const authorName = comment.owner?.name ?? "Удалённый пользователь";
+
+                        return (
+                            <li key={comment.id} className="comment">
+                                <div className="comment__avatar">
+                                    {authorName.slice(0, 1).toUpperCase()}
                                 </div>
-                                <p className="comment__text">{comment.content}</p>
-                                <div className="comment__actions">
-                                    <button
-                                        className={`comment__like ${comment.isLikedByCurrentUser ? "comment__like--active" : ""}`}
-                                        onClick={() => handleLike(comment)}
-                                        disabled={!auth.isAuthenticated}
-                                    >
-                                        ♥ {comment.likesCount}
-                                    </button>
-                                    {(auth.user?.id === comment.owner.id || auth.user?.role === "Admin") && (
-                                        <button className="comment__delete" onClick={() => handleDelete(comment.id)}>
-                                            Удалить
+                                <div className="comment__body">
+                                    <div className="comment__head">
+                                        <span className="comment__author">{authorName}</span>
+                                        <span className="comment__date">
+                                            {new Date(comment.creationDate).toLocaleString()}
+                                        </span>
+                                    </div>
+                                    <p className="comment__text">{comment.content}</p>
+                                    <div className="comment__actions">
+                                        <button
+                                            className={`comment__like ${comment.isLikedByCurrentUser ? "comment__like--active" : ""}`}
+                                            onClick={() => handleLike(comment)}
+                                            disabled={!auth.isAuthenticated}
+                                        >
+                                            ♥ {comment.likesCount}
                                         </button>
-                                    )}
+                                        {comment.owner && (auth.user?.id === comment.owner.id || auth.isAdmin) && (
+                                            <button className="comment__delete" onClick={() => handleDelete(comment.id)}>
+                                                Удалить
+                                            </button>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                    ))}
+                            </li>
+                        )
+                    })}
                 </ul>
             )}
         </section>

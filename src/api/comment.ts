@@ -5,9 +5,14 @@ export interface Comment {
   id: number;
   content: string;
   creationDate: string;
-  owner: User;
+  owner?: CommentOwner | null;
   likesCount: number;
   isLikedByCurrentUser: boolean;
+}
+
+export interface CommentOwner {
+  id: number;
+  name: string;
 }
 
 export const CommentApi = {
