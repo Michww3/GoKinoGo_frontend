@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores/StoreContext";
 import CartIcon from "@/img/cart.svg";
 import "./CartButton.css";
+import { Link } from "react-router-dom";
 
 export const CartButton = observer(function CartButton() {
   const { cart } = useStore();
@@ -60,6 +61,9 @@ export const CartButton = observer(function CartButton() {
                 <span>Итого</span>
                 <span className="cart-button__total">{cart.totalPrice.toFixed(2)} BYN</span>
               </div>
+              <Link to="/cart" className="cart-button__checkout" onClick={() => setIsOpen(false)}>
+                Перейти в корзину
+              </Link>
             </>
           )}
         </div>

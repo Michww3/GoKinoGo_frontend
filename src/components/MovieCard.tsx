@@ -11,13 +11,8 @@ interface MovieCardProps {
 
 export const MovieCard = observer(function MovieCard({ movie }: MovieCardProps) {
   const { cart } = useStore();
-  const [justAdded, setJustAdded] = useState(false);
+  const cartItem = cart.items.find((item) => item.movieId === movie.id);
 
-  const handleAddToCart = () => {
-    cart.addItem({ id: movie.id, name: movie.name, posterUrl: movie.posterUrl, price: movie.price });
-    setJustAdded(true);
-    setTimeout(() => setJustAdded(false), 1500);
-  };
 
   return (
     <div className="movie-card">
@@ -30,9 +25,22 @@ export const MovieCard = observer(function MovieCard({ movie }: MovieCardProps) 
             <Link to={`/movies/${movie.id}`} className="movie-card__btn movie-card__btn--outline">
               Подробнее
             </Link>
-            <button className="movie-card__btn movie-card__btn--solid" onClick={handleAddToCart}>
-              {justAdded ? "Добавлено ✓" : "В корзину"}
-            </button>
+            {cartItem ? (
+              <div className="movie-card__qty">
+                <button onClick={() => cart.setQuantity(movie.id, cartItem.quantity - 1)}>−</button>
+                <span>{cartItem.quantity}</span>
+                <button onClick={() => cart.setQuantity(movie.id, cartItem.quantity + 1)}>+</button>
+              </div>
+            ) : (
+              <button
+                className="movie-card__btn movie-card__btn--solid"
+                onClick={() =>
+                  cart.addItem({ id: movie.id, name: movie.name, posterUrl: movie.posterUrl, price: movie.price })
+                }
+              >
+                В корзину
+              </button>
+            )}
           </div>
         </div>
       </div>

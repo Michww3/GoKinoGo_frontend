@@ -11,6 +11,7 @@ const CartItem = types.model("CartItem", {
 export const CartStore = types
   .model("CartStore", {
     items: types.array(CartItem),
+    guestEmail: types.maybeNull(types.string),
   })
   .views((self) => ({
     get totalItems() {
@@ -49,8 +50,12 @@ export const CartStore = types
       }
     },
     clear() {
+      self.guestEmail = null;
       self.items.clear();
     },
+    setGuestEmail(email: string){
+      self.guestEmail = email;
+    }
   }));
 
 export type CartStoreInstance = Instance<typeof CartStore>;

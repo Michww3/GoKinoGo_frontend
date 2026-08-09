@@ -1,14 +1,15 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
 import { MovieDetailsPage } from "./pages/MovieDetailsPage";
-import { StrictMode, useEffect } from "react";
+import { useEffect } from "react";
 import { Header } from "./components/Header";
-import { StoreProvider, useStore } from "./stores/StoreContext";
+import { useStore } from "./stores/StoreContext";
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { observer } from "mobx-react-lite";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ProfilePage } from "./pages/ProfilePage";
+import { CartPage } from "./pages/CartPage";
 
 export const App = observer(function App() {
     const { auth } = useStore();
@@ -28,6 +29,7 @@ export const App = observer(function App() {
                 <Route path="/movies/:id" element={<MovieDetailsPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route path="/cart" element={<CartPage />} />
                 <Route
                     path="/profile"
                     element={

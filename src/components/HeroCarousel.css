@@ -192,6 +192,40 @@
   border-radius: 4px;
 }
 
+.hero__qty {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  padding: 8px 18px;
+}
+
+.hero__qty button {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.hero__qty button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.hero__qty span {
+  min-width: 20px;
+  text-align: center;
+  font-weight: 700;
+  color: white;
+}
+
 @media (max-width: 768px) {
   .hero__content {
     width: 100%;

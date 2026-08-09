@@ -9,7 +9,7 @@ export const RootStore = types.model("RootStore", {
 
 export const rootStore = RootStore.create({
   auth: { user: null },
-  cart: { items: [] },
+  cart: { items: [], guestEmail: null },
 });
 
 export type RootStoreInstance = Instance<typeof RootStore>;

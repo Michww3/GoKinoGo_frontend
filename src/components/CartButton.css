@@ -142,3 +142,15 @@
 .cart-button__total {
   color: var(--accent);
 }
+
+.cart-button__checkout {
+  display: block;
+  text-align: center;
+  margin-top: var(--space-3);
+  padding: 10px;
+  background: var(--accent);
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
