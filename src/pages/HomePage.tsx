@@ -1,13 +1,13 @@
 import "./HomePage.css";
-import React, { useState, useEffect } from "react";
-import { type Movie, MovieApi } from "../api/movie";
-import { Link, useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { type Movie, MovieApi, MovieSummary } from "../api/movie";
+import { useSearchParams } from "react-router-dom";
 import { MovieCard } from "@/components/MovieCard";
 import { Genre, GenreApi } from "@/api/genre";
 import { HeroCarousel } from "@/components/HeroCarousel";
 
 export function HomePage() {
-    const [movies, setMovies] = useState<Movie[]>([]);
+    const [movies, setMovies] = useState<MovieSummary[]>([]);
     const [genres, setGenres] = useState<Genre[]>([]);
     const [heroMovies, setHeroMovies] = useState<Movie[]>([]);
     const [activeGenreId, setActiveGenreId] = useState<number | null>(null);

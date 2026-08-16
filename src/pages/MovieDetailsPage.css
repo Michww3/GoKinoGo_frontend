@@ -43,6 +43,10 @@
     line-height: 1.15;
 }
 
+.movie-details__rating {
+  margin-bottom: var(--space-2);
+}
+
 .movie-details__meta {
     display: flex;
     gap: var(--space-2);
@@ -54,7 +58,16 @@
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-2);
+}
+
+.movie-details__genre-chip {
+    display: inline-block;
+    padding: 4px 12px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    background-color: var(--surface);
+    border-radius: 20px;
 }
 
 .movie-details__description {
@@ -88,7 +101,7 @@
 }
 
 .movie-details__add-btn:hover {
-  filter: brightness(1.1);
+  background: var(--accent-hover);
 }
 
 .movie-details__qty {
@@ -111,6 +124,10 @@
   font-size: 1rem;
   cursor: pointer;
   line-height: 1;
+}
+
+.movie-details__qty button:hover {
+  border-color: var(--accent);
 }
 
 .movie-details__qty span {
