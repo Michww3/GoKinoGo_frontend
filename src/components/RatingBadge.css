@@ -22,7 +22,14 @@
 }
 
 .rating-badge--lg {
-  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+}
+
+.rating-badge__value {
+  font-weight: 700;
 }
 
 .rating-badge__count {
