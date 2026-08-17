@@ -1,36 +1,27 @@
 .star-rating {
+  position: relative;
+  display: inline-block;
+}
+
+.star-rating__row {
   display: flex;
   white-space: nowrap;
 }
 
-.star-rating__star {
-  position: relative;
-  width: 18px;
-  height: 18px;
+.star-rating__row svg {
   flex: 0 0 18px;
-}
-
-.star-rating__empty,
-.star-rating__filled {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 18px;
-  overflow: hidden;
-}
-
-.star-rating__empty {
   width: 18px;
+  height: 18px;
+}
+
+.star-rating__row--empty {
   color: var(--surface-border);
 }
 
-.star-rating__filled {
+.star-rating__row--filled {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
   color: #f0b429;
-}
-
-.star-rating__empty svg,
-.star-rating__filled svg {
-  display: block;
-  width: 18px;
-  height: 18px;
 }
