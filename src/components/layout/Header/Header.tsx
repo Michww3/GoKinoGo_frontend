@@ -3,8 +3,8 @@ import "./Header.css";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores/StoreContext";
 import ProfileIcon from "@/img/profile.svg";
-import { UserMenu } from "./UserMenu";
-import { CartButton } from "./CartButton";
+import { UserMenu } from "../UserMenu/UserMenu";
+import { CartButton } from "../../cart/CartButton/CartButton";
 
 export const Header = observer(function Header() {
   const [searchParams, setSearchParams] = useSearchParams();

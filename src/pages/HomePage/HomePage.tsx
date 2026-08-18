@@ -1,10 +1,10 @@
 import "./HomePage.css";
 import { useState, useEffect } from "react";
-import { type Movie, MovieApi, MovieSummary } from "../api/movie";
+import { type Movie, MovieApi, MovieSummary } from "../../api/movie";
 import { useSearchParams } from "react-router-dom";
-import { MovieCard } from "@/components/MovieCard";
+import { MovieCard } from "@/components/movies/MovieCard/MovieCard";
 import { Genre, GenreApi } from "@/api/genre";
-import { HeroCarousel } from "@/components/HeroCarousel";
+import { HeroCarousel } from "@/components/movies/HeroCarousel/HeroCarousel";
 
 export function HomePage() {
     const [movies, setMovies] = useState<MovieSummary[]>([]);

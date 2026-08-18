@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import type { MovieSummary } from "@/api/movie";
 import { useStore } from "@/stores/StoreContext";
 import "./MovieCard.css";
-import { RatingBadge } from "./RatingBadge";
+import { RatingBadge } from "../../ratings/RatingBadge/RatingBadge";
 
 interface MovieCardProps {
   movie: MovieSummary;
@@ -19,7 +19,7 @@ export const MovieCard = observer(function MovieCard({ movie }: MovieCardProps) 
       <div className="movie-card__poster-wrap">
         <img className="movie-card__poster" src={movie.posterUrl} alt={movie.name} />
 
-        <RatingBadge rating={movie.averageRating}size="sm" />
+        <RatingBadge rating={movie.averageRating} type="sm" />
 
         <div className="movie-card__overlay">
           <h3 className="movie-card__overlay-title">{movie.name}</h3>

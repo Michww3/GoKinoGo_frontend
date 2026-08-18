@@ -1,19 +1,19 @@
 import { formatRatingsCount } from "@/utils/format";
 import "./RatingBadge.css";
-import { StarRating } from "./StarRating";
+import { StarRating } from "../StarRating/StarRating";
 
 interface RatingBadgeProps {
   rating: number;
   count?: number;
-  size?: "sm" | "lg";
+  type?: "sm" | "stars";
 }
 
-export function RatingBadge({ rating, count, size = "sm" }: RatingBadgeProps) {
+export function RatingBadge({ rating, count, type = "sm" }: RatingBadgeProps) {
   if (rating <= 0) return null;
 
-  if (size === "lg") {
+  if (type === "stars") {
     return (
-      <div className="rating-badge rating-badge--lg">
+      <div className="rating-badge rating-badge--stars">
         <StarRating rating={rating} />
         <span className="rating-badge__value">{rating.toFixed(1)}</span>
         {typeof count === "number" && count > 0 && (

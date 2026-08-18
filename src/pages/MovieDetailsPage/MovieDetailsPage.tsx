@@ -5,8 +5,8 @@ import { observer } from "mobx-react-lite";
 import { MovieApi, MovieDetails } from "@/api/movie";
 import { useStore } from "@/stores/StoreContext";
 import { formatDate, formatLength } from "@/utils/format";
-import { CommentSection } from "@/components/CommentSection";
-import { RatingBadge } from "@/components/RatingBadge";
+import { CommentSection } from "@/components/comments/CommentSection/CommentSection";
+import { RatingBadge } from "@/components/ratings/RatingBadge/RatingBadge";
 
 export const MovieDetailsPage = observer(function MovieDetailsPage() {
   const { id } = useParams<{ id: string }>();
@@ -50,11 +50,17 @@ export const MovieDetailsPage = observer(function MovieDetailsPage() {
         <div className="movie-details__info">
           <h1 className="movie-details__title">{movie.name}</h1>
 
-          {movie.averageRating > 0 && (
-            <div className="movie-details__rating">
-              <RatingBadge rating={movie.averageRating} count={movie.ratingsCount} size="lg" />
-            </div>
-          )}
+          <div className="movie-details__rating">
+            {movie.ratingsCount > 0 && (
+              <RatingBadge rating={movie.averageRating} count={movie.ratingsCount} type="stars" />
+            )}
+            {movie.ratingsCount === 0 && (
+              <span className="movie-details__no-rating">Нет оценок</span>
+            )}
+            <button className="movie-details__rate-btn">
+              {movie.userRating ? `Изменить оценку - ${movie.userRating}` : "Оценить"}
+            </button>
+          </div>
 
           <p className="movie-details__meta">
             <span>{formatDate(movie.releaseDate)}</span>

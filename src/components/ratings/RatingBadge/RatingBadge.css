@@ -21,7 +21,7 @@
   font-size: 0.8rem;
 }
 
-.rating-badge--lg {
+.rating-badge--stars {
   display: flex;
   align-items: center;
   gap: 8px;

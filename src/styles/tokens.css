@@ -1,6 +1,7 @@
 :root {
   --bg: #0a0a0d;
   --surface: #18161f;
+  --surface-hover: #2b2733;
   --surface-border: #2b2733;
 
   --text-primary: #f2efe9;

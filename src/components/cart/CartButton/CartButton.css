@@ -155,3 +155,7 @@
   font-weight: 600;
   font-size: 0.9rem;
 }
+
+.cart-button__checkout:hover {
+  background: var(--accent-hover);
+}

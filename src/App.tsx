@@ -1,15 +1,15 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { HomePage } from "./pages/HomePage";
-import { MovieDetailsPage } from "./pages/MovieDetailsPage";
+import { HomePage } from "./pages/HomePage/HomePage";
+import { MovieDetailsPage } from "./pages/MovieDetailsPage/MovieDetailsPage";
 import { useEffect } from "react";
-import { Header } from "./components/Header";
+import { Header } from "./components/layout/Header/Header";
 import { useStore } from "./stores/StoreContext";
-import { LoginPage } from "./pages/LoginPage";
-import { RegisterPage } from "./pages/RegisterPage";
+import { LoginPage } from "./pages/AuthPages/LoginPage";
+import { RegisterPage } from "./pages/AuthPages/RegisterPage";
 import { observer } from "mobx-react-lite";
 import { ProtectedRoute } from "./components/ProtectedRoute";
-import { ProfilePage } from "./pages/ProfilePage";
-import { CartPage } from "./pages/CartPage";
+import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
+import { CartPage } from "./pages/CartPage/CartPage";
 
 export const App = observer(function App() {
     const { auth } = useStore();
