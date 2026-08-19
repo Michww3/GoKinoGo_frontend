@@ -53,6 +53,9 @@ export const UserMenu = observer(function UserMenu({ className }: { className?: 
                     <Link to="/profile" className="user-menu__item" onClick={() => setIsOpen(false)}>
                         Профиль
                     </Link>
+                    <Link to="/ratings" className="user-menu__item" onClick={() => setIsOpen(false)}>
+                        Мои оценки
+                    </Link>
 
                     <button
                         className="user-menu__item user-menu__item--danger"

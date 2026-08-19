@@ -3,13 +3,16 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { MovieApi, MovieDetails } from "@/api/movie";
+import { RatingApi } from "@/api/rating";
 import { useStore } from "@/stores/StoreContext";
 import { formatDate, formatLength } from "@/utils/format";
 import { CommentSection } from "@/components/comments/CommentSection/CommentSection";
 import { RatingBadge } from "@/components/ratings/RatingBadge/RatingBadge";
+import { UserRating } from "@/components/ratings/UserRating/UserRating"
 
 export const MovieDetailsPage = observer(function MovieDetailsPage() {
   const { id } = useParams<{ id: string }>();
+  const { auth } = useStore();
   const { cart } = useStore();
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [notFound, setNotFound] = useState(false);
@@ -36,6 +39,20 @@ export const MovieDetailsPage = observer(function MovieDetailsPage() {
     return <div className="movie-details movie-details--empty">Загрузка…</div>;
   }
 
+  const handleSaveRating = async (rating: number) => {
+    await RatingApi.rate(movie.id, rating);
+
+    const updatedMovie = await MovieApi.getById(movie.id);
+    setMovie(updatedMovie);
+  };
+
+  const handleDeleteRating = async () => {
+    await RatingApi.deleteRating(movie.id);
+
+    const updatedMovie = await MovieApi.getById(movie.id);
+    setMovie(updatedMovie);
+  };
+
   const cartItem = cart.items.find((i) => i.movieId === movie.id);
 
   return (
@@ -51,15 +68,25 @@ export const MovieDetailsPage = observer(function MovieDetailsPage() {
           <h1 className="movie-details__title">{movie.name}</h1>
 
           <div className="movie-details__rating">
-            {movie.ratingsCount > 0 && (
-              <RatingBadge rating={movie.averageRating} count={movie.ratingsCount} type="stars" />
+            {movie.ratingsCount > 0 ? (
+              <RatingBadge
+                rating={movie.averageRating}
+                count={movie.ratingsCount}
+                type="stars"
+              />
+            ) : (
+              <span className="movie-details__no-rating">
+                Нет оценок
+              </span>
             )}
-            {movie.ratingsCount === 0 && (
-              <span className="movie-details__no-rating">Нет оценок</span>
-            )}
-            <button className="movie-details__rate-btn">
-              {movie.userRating ? `Изменить оценку - ${movie.userRating}` : "Оценить"}
-            </button>
+            {auth.isAuthenticated &&
+              (
+                < UserRating
+                  rating={movie.userRating}
+                  onSave={handleSaveRating}
+                  onDelete={handleDeleteRating}
+                />
+              )}
           </div>
 
           <p className="movie-details__meta">

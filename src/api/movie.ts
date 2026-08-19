@@ -13,27 +13,27 @@ export interface Movie {
 }
 
 export interface MovieSummary {
-  id: number;
-  name: string;
-  price: number;
-  posterUrl: string;
-  releaseDate: string;
-  genres: Genre[];
-  averageRating: number;
+    id: number;
+    name: string;
+    price: number;
+    posterUrl: string;
+    releaseDate: string;
+    genres: Genre[];
+    averageRating: number;
 }
 
 export interface MovieDetails {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  releaseDate: string;
-  length: string;
-  posterUrl: string;
-  genres: Genre[];
-  averageRating: number;
-  ratingsCount: number;
-  userRating: number | null;
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+    releaseDate: string;
+    length: string;
+    posterUrl: string;
+    genres: Genre[];
+    averageRating: number;
+    ratingsCount: number;
+    userRating: number | null;
 }
 
 export interface MovieCollection {
@@ -52,9 +52,8 @@ export interface MovieCollectionItem {
 export const MovieApi = {
     getAll: () => apiClient.get<MovieSummary[]>("/movies").then(res => res.data),
     getById: (id: number) => apiClient.get<MovieDetails>(`/movies/${id}`).then(res => res.data),
-    getHero: async () => 
-        {
-            const response = await apiClient.get<MovieCollection>("/MovieCollections/1");
-            return response.data.items.map(item => item.movie); 
-        }
+    getHero: async () => {
+        const response = await apiClient.get<MovieCollection>("/MovieCollections/1");
+        return response.data.items.map(item => item.movie);
+    },
 };

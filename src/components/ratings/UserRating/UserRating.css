@@ -1,0 +1,123 @@
+.user-rating {
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--surface-border);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.user-rating:hover {
+  background: var(--surface-hover);
+}
+
+.user-rating--rated {
+  color: var(--accent);
+}
+
+.user-rating-editor {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.user-rating-editor__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: var(--space-3);
+}
+
+.user-rating-editor__label {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.user-rating-editor__values {
+  display: flex;
+  gap: 4px;
+}
+
+.user-rating-editor__value {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid var(--surface-border);
+  border-radius: 5px;
+  background: var(--surface);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.user-rating-editor__value:hover {
+  background: var(--surface-hover);
+  border-color: var(--accent);
+}
+
+.user-rating-editor__value--selected {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.user-rating-editor__actions {
+  display: flex;
+  gap: 6px;
+}
+
+.user-rating-editor__save,
+.user-rating-editor__cancel,
+.user-rating-editor__delete {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.user-rating-editor__save {
+  background: var(--accent);
+  color: white;
+  border: 1px solid var(--accent);
+}
+
+.user-rating-editor__save:hover {
+  background: var(--accent-hover);
+}
+
+.user-rating-editor__cancel {
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--surface-border);
+}
+
+.user-rating-editor__cancel:hover {
+  background: var(--surface-hover);
+}
+
+.user-rating-editor__delete {
+  margin-left: auto;
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+}
+
+.user-rating-editor__delete:hover {
+  color: #d9534f;
+}
+
+.user-rating-editor__value:disabled,
+.user-rating-editor__save:disabled,
+.user-rating-editor__cancel:disabled,
+.user-rating-editor__delete:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
