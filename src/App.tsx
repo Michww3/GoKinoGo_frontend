@@ -10,6 +10,7 @@ import { observer } from "mobx-react-lite";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 import { CartPage } from "./pages/CartPage/CartPage";
+import { MyRatingsPage } from "./pages/MyRatingsPage/MyRatingsPage";
 
 export const App = observer(function App() {
     const { auth } = useStore();
@@ -35,6 +36,14 @@ export const App = observer(function App() {
                     element={
                         <ProtectedRoute>
                             <ProfilePage />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route 
+                    path="/ratings"
+                    element={
+                        <ProtectedRoute>
+                            <MyRatingsPage />
                         </ProtectedRoute>
                     }
                 />

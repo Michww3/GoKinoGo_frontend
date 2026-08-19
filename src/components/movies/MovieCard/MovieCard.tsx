@@ -48,7 +48,9 @@ export const MovieCard = observer(function MovieCard({ movie }: MovieCardProps) 
       </div>
 
       <div className="movie-card__body">
-        <h3 className="movie-card__title">{movie.name}</h3>
+        <Link to={`/movies/${movie.id}`}>
+          <h3 className="movie-card__title">{movie.name}</h3>
+        </Link>
         <div className="movie-card__row">
           <p className="movie-card__date">{new Date(movie.releaseDate).toLocaleDateString()}</p>
           <p className="movie-card__price">{movie.price} BYN</p>

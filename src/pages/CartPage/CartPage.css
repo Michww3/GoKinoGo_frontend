@@ -45,6 +45,11 @@
   padding: var(--space-3);
 }
 
+.cart-page__item:hover {
+  border-color: var(--accent);
+  background: var(--surface-hover);
+}
+
 .cart-page__poster {
   width: 64px;
   height: 90px;
@@ -52,9 +57,17 @@
   border-radius: 6px;
 }
 
+.cart-page__poster:hover {
+  opacity: 0.7;
+}
+
 .cart-page__name {
   margin: 0;
   font-weight: 600;
+}
+
+.cart-page__name:hover {
+  text-decoration: underline;
 }
 
 .cart-page__unit-price {

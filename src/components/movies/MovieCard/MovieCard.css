@@ -113,6 +113,10 @@
   overflow: hidden;
 }
 
+.movie-card__title:hover {
+  text-decoration: underline;
+}
+
 .movie-card__row {
   display: flex;
   justify-content: space-between;

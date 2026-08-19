@@ -53,10 +53,14 @@ export const CartPage = observer(function CartPage() {
             <ul className="cart-page__list">
                 {cart.items.map((item) => (
                     <li key={item.movieId} className="cart-page__item">
-                        <img src={item.posterUrl} alt={item.name} className="cart-page__poster" />
+                        <Link to={`/movies/${item.movieId}`}>
+                            <img src={item.posterUrl} alt={item.name} className="cart-page__poster" />
+                        </Link>
 
                         <div className="cart-page__info">
-                            <p className="cart-page__name">{item.name}</p>
+                            <Link to={`/movies/${item.movieId}`} className="cart-page__name">
+                                {item.name}
+                            </Link>
                             <p className="cart-page__unit-price">{item.price.toFixed(2)} BYN / шт</p>
                         </div>
 
