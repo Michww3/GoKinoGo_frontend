@@ -1,0 +1,11 @@
+.sort-select,
+.page-size-select {
+  margin-right: var(--space-3);
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+}

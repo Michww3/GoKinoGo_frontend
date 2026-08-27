@@ -1,19 +1,38 @@
-.genre-filter {
+.home-layout {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: var(--space-5) var(--space-5) 0;
+  gap: var(--space-5);
+  padding-top: var(--space-5);
+  align-items: flex-start;
 }
 
-.genre-filter .genre-chip {
-  cursor: pointer;
-  background: transparent;
-  font-size: 0.85rem;
-  padding: 6px 14px;
+.home-content {
+  flex: 1;
+  min-width: 0;
 }
 
-.genre-chip--active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: white;
+.home-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.home-toolbar__count {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.home-toolbar__controls {
+  display: flex;
+  gap: 10px;
+}
+
+@media (max-width: 900px) {
+  .home-layout {
+    flex-direction: column;
+  }
+
+  .filter-sidebar {
+    width: 100%;
+  }
 }

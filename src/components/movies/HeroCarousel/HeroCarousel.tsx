@@ -24,7 +24,10 @@ export const HeroCarousel = observer(function HeroCarousel({ movies }: { movies:
         return (
           <div key={movie.id} className={`hero__slide ${i === index ? "hero__slide--active" : ""}`}>
             <div className="hero__content">
-              <h1 className="hero__title">{movie.name}</h1>
+              
+              <Link to={`/movies/${movie.id}`} className="hero__link" aria-label={`Перейти к фильму ${movie.name}`} >
+                <h1 className="hero__title">{movie.name}</h1>
+              </Link>
 
               <div className="hero__meta">
                 <span>{movie.genres.map((g) => g.name).join(", ")}</span>

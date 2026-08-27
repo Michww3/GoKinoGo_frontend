@@ -36,6 +36,10 @@
   line-height: 1.05;
 }
 
+.hero__title:hover {
+  color: var(--accent);
+}
+
 .hero__meta {
   display: flex;
   align-items: center;

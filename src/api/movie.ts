@@ -49,8 +49,50 @@ export interface MovieCollectionItem {
     movie: Movie;
 }
 
+export type MovieSortOption = "dateDesc" | "dateAsc" | "ratingDesc" | "recentlyAdded";
+
+export interface MoviesQuery {
+    pageNumber: number;
+    pageSize: number;
+    searchQuery?: string;
+    genreIds?: number[];
+    minPrice?: number;
+    maxPrice?: number;
+    minYear?: number;
+    maxYear?: number;
+    minRating?: number;
+    sortBy?: MovieSortOption;
+}
+
+export interface PagedResult<T> {
+    items: T[];
+    pageNumber: number;
+    pageSize: number;
+    totalCount: number;
+    totalPages: number;
+}
+
+function buildMoviesParams(query: MoviesQuery): URLSearchParams {
+    const params = new URLSearchParams();
+    params.set("pageNumber", String(query.pageNumber));
+    params.set("pageSize", String(query.pageSize));
+    if (query.searchQuery) params.set("searchQuery", query.searchQuery);
+    if (query.sortBy) params.set("sortBy", query.sortBy);
+    if (query.minPrice != null) params.set("minPrice", String(query.minPrice));
+    if (query.maxPrice != null) params.set("maxPrice", String(query.maxPrice));
+    if (query.minYear != null) params.set("minYear", String(query.minYear));
+    if (query.maxYear != null) params.set("maxYear", String(query.maxYear));
+    if (query.minRating != null) params.set("minRating", String(query.minRating));
+    query.genreIds?.forEach((id) => params.append("genreIds", String(id)));
+    return params;
+}
+
 export const MovieApi = {
     getAll: () => apiClient.get<MovieSummary[]>("/movies").then(res => res.data),
+    getPaged: (query: MoviesQuery) =>
+        apiClient
+            .get<PagedResult<MovieSummary>>("/Movie/paged", { params: buildMoviesParams(query) })
+            .then((res) => res.data),
     getById: (id: number) => apiClient.get<MovieDetails>(`/movies/${id}`).then(res => res.data),
     getHero: async () => {
         const response = await apiClient.get<MovieCollection>("/MovieCollections/1");
