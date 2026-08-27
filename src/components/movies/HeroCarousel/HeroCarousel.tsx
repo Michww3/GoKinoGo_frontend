@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import type { Movie } from "@/api/movie";
 import { useStore } from "@/stores/StoreContext";
 import { formatLength } from "@/utils/format";
+import BYN_symbol from "@/img/BYN_symbol.svg";
 import "./HeroCarousel.css";
 
 export const HeroCarousel = observer(function HeroCarousel({ movies }: { movies: Movie[] }) {
@@ -24,7 +25,7 @@ export const HeroCarousel = observer(function HeroCarousel({ movies }: { movies:
         return (
           <div key={movie.id} className={`hero__slide ${i === index ? "hero__slide--active" : ""}`}>
             <div className="hero__content">
-              
+
               <Link to={`/movies/${movie.id}`} className="hero__link" aria-label={`Перейти к фильму ${movie.name}`} >
                 <h1 className="hero__title">{movie.name}</h1>
               </Link>
@@ -40,7 +41,10 @@ export const HeroCarousel = observer(function HeroCarousel({ movies }: { movies:
               <p className="hero__description">{movie.description}</p>
 
               <div className="hero__actions">
-                <span className="hero__price">{movie.price} BYN</span>
+                <span className="hero__price">
+                  {movie.price}
+                  <BYN_symbol aria-hidden="true" />
+                </span>
                 <Link to={`/movies/${movie.id}`} className="hero__cta hero__cta--outline">
                   Подробнее →
                 </Link>
@@ -71,28 +75,28 @@ export const HeroCarousel = observer(function HeroCarousel({ movies }: { movies:
       })}
 
       {
-          movies.length > 1 && (
-            <>
-              <button className="hero__arrow hero__arrow--prev" onClick={() => goTo(index - 1)} aria-label="Предыдущий">
-                ‹
-              </button>
-              <button className="hero__arrow hero__arrow--next" onClick={() => goTo(index + 1)} aria-label="Следующий">
-                ›
-              </button>
+        movies.length > 1 && (
+          <>
+            <button className="hero__arrow hero__arrow--prev" onClick={() => goTo(index - 1)} aria-label="Предыдущий">
+              ‹
+            </button>
+            <button className="hero__arrow hero__arrow--next" onClick={() => goTo(index + 1)} aria-label="Следующий">
+              ›
+            </button>
 
-              <div className="hero__dots">
-                {movies.map((_, i) => (
-                  <button
-                    key={i}
-                    className={`hero__dot ${i === index ? "hero__dot--active" : ""}`}
-                    onClick={() => goTo(i)}
-                    aria-label={`Слайд ${i + 1}`}
-                  />
-                ))}
-              </div>
-            </>
-          )
-        }
+            <div className="hero__dots">
+              {movies.map((_, i) => (
+                <button
+                  key={i}
+                  className={`hero__dot ${i === index ? "hero__dot--active" : ""}`}
+                  onClick={() => goTo(i)}
+                  aria-label={`Слайд ${i + 1}`}
+                />
+              ))}
+            </div>
+          </>
+        )
+      }
     </section>
   );
 });

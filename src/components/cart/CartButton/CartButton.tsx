@@ -4,6 +4,7 @@ import { useStore } from "@/stores/StoreContext";
 import CartIcon from "@/img/cart.svg";
 import "./CartButton.css";
 import { Link } from "react-router-dom";
+import BYN_symbol from "@/img/BYN_symbol.svg";
 
 export const CartButton = observer(function CartButton() {
   const { cart } = useStore();
@@ -46,7 +47,10 @@ export const CartButton = observer(function CartButton() {
                         <button onClick={() => cart.setQuantity(item.movieId, item.quantity + 1)}>+</button>
                       </div>
                     </div>
-                    <span className="cart-item__price">{(item.price * item.quantity).toFixed(2)} BYN</span>
+                    <span className="cart-item__price">
+                      {(item.price * item.quantity).toFixed(2)} 
+                      <BYN_symbol aria-hidden="true" />
+                    </span>
                     <button
                       className="cart-item__remove"
                       onClick={() => cart.removeItem(item.movieId)}
@@ -59,7 +63,10 @@ export const CartButton = observer(function CartButton() {
               </ul>
               <div className="cart-button__footer">
                 <span>Итого</span>
-                <span className="cart-button__total">{cart.totalPrice.toFixed(2)} BYN</span>
+                <span className="cart-button__total">
+                  {cart.totalPrice.toFixed(2)} 
+                  <BYN_symbol aria-hidden="true" />
+                </span>
               </div>
               <Link to="/cart" className="cart-button__checkout" onClick={() => setIsOpen(false)}>
                 Перейти в корзину

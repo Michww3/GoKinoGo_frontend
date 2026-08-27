@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores/StoreContext";
+import BYN_symbol from "@/img/BYN_symbol.svg";
 import "./CartPage.css";
 
 const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -61,7 +62,10 @@ export const CartPage = observer(function CartPage() {
                             <Link to={`/movies/${item.movieId}`} className="cart-page__name">
                                 {item.name}
                             </Link>
-                            <p className="cart-page__unit-price">{item.price.toFixed(2)} BYN / шт</p>
+                            <p className="cart-page__unit-price">
+                                {item.price.toFixed(2)}
+                                <BYN_symbol aria-hidden="true" />
+                                /шт</p>
                         </div>
 
                         <div className="cart-page__qty">
@@ -70,7 +74,10 @@ export const CartPage = observer(function CartPage() {
                             <button onClick={() => cart.setQuantity(item.movieId, item.quantity + 1)}>+</button>
                         </div>
 
-                        <span className="cart-page__sum">{(item.price * item.quantity).toFixed(2)} BYN</span>
+                        <span className="cart-page__sum">
+                            {(item.price * item.quantity).toFixed(2)}
+                            <BYN_symbol aria-hidden="true" />
+                        </span>
 
                         <button
                             className="cart-page__remove"
@@ -104,7 +111,10 @@ export const CartPage = observer(function CartPage() {
 
             <div className="cart-page__summary">
                 <span>Итого ({cart.totalItems} шт.)</span>
-                <span className="cart-page__total">{cart.totalPrice.toFixed(2)} BYN</span>
+                <span className="cart-page__total">
+                    {cart.totalPrice.toFixed(2)}
+                    <BYN_symbol aria-hidden="true" />
+                </span>
             </div>
 
             <button className="cart-page__confirm" onClick={handleConfirm}>

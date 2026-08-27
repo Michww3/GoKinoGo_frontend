@@ -4,6 +4,7 @@ import type { MovieSummary } from "@/api/movie";
 import { useStore } from "@/stores/StoreContext";
 import "./MovieCard.css";
 import { RatingBadge } from "../../ratings/RatingBadge/RatingBadge";
+import BYN_symbol from "@/img/BYN_symbol.svg";
 
 interface MovieCardProps {
   movie: MovieSummary;
@@ -53,7 +54,10 @@ export const MovieCard = observer(function MovieCard({ movie }: MovieCardProps) 
         </Link>
         <div className="movie-card__row">
           <p className="movie-card__date">{new Date(movie.releaseDate).toLocaleDateString()}</p>
-          <p className="movie-card__price">{movie.price} BYN</p>
+          <p className="movie-card__price">
+            {movie.price}
+            <BYN_symbol aria-hidden="true" />
+          </p>
         </div>
         {movie.genres.length > 0 && (
           <div className="movie-card__genres">

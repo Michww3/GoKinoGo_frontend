@@ -9,6 +9,7 @@ import { formatDate, formatLength } from "@/utils/format";
 import { CommentSection } from "@/components/comments/CommentSection/CommentSection";
 import { RatingBadge } from "@/components/ratings/RatingBadge/RatingBadge";
 import { UserRating } from "@/components/ratings/UserRating/UserRating"
+import BYN_symbol from "@/img/BYN_symbol.svg";
 
 export const MovieDetailsPage = observer(function MovieDetailsPage() {
   const { id } = useParams<{ id: string }>();
@@ -108,7 +109,10 @@ export const MovieDetailsPage = observer(function MovieDetailsPage() {
           <p className="movie-details__description">{movie.description}</p>
 
           <div className="movie-details__purchase">
-            <span className="movie-details__price">{movie.price} BYN</span>
+            <span className="movie-details__price">
+              {movie.price} 
+              <BYN_symbol aria-hidden="true" />
+            </span>
 
             {cartItem ? (
               <div className="movie-details__qty">
