@@ -2,7 +2,6 @@ import { Link, useSearchParams } from "react-router-dom";
 import "./Header.css";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores/StoreContext";
-import ProfileIcon from "@/img/profile.svg";
 import { UserMenu } from "../UserMenu/UserMenu";
 import { CartButton } from "../../cart/CartButton/CartButton";
 
@@ -11,13 +10,17 @@ export const Header = observer(function Header() {
   const query = searchParams.get("q") ?? "";
   const { auth } = useStore();
 
-  console.log(ProfileIcon);
   const handleSearch = (value: string) => {
-    if (value) {
-      setSearchParams({ q: value });
-    } else {
-      setSearchParams({});
-    }
+    setSearchParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        if (value) next.set("q", value);
+        else next.delete("q");
+        next.delete("page");
+        return next;
+      },
+      { replace: true }
+    );
   };
 
   return (
@@ -35,7 +38,7 @@ export const Header = observer(function Header() {
         value={query}
         onChange={(e) => handleSearch(e.target.value)}
       />
-      
+
       <div className="header__actions">
         <CartButton />
         <UserMenu />

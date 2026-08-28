@@ -7,8 +7,8 @@ import { HeroCarousel } from "@/components/movies/HeroCarousel/HeroCarousel";
 import { FilterSidebar } from "@/components/movies/FilterSidebar/FilterSidebar";
 import { useMovieFilters } from "@/hooks/useMovieFilters";
 import { Pagination } from "@/components/pagination/Pagination";
-import { PageSizeSelect } from "@/components/PaginationSortOptions/PageSizeSelect";
-import { SortSelect } from "@/components/PaginationSortOptions/SortSelect";
+import { PageSizeSelect } from "@/components/pagination/PaginationSortOptions/PageSizeSelect";
+import { SortSelect } from "@/components/pagination/PaginationSortOptions/SortSelect";
 
 export function HomePage() {
     const { filters, updateFilters, toApiQuery } = useMovieFilters();

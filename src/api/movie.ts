@@ -88,10 +88,9 @@ function buildMoviesParams(query: MoviesQuery): URLSearchParams {
 }
 
 export const MovieApi = {
-    getAll: () => apiClient.get<MovieSummary[]>("/movies").then(res => res.data),
     getPaged: (query: MoviesQuery) =>
         apiClient
-            .get<PagedResult<MovieSummary>>("/Movie/paged", { params: buildMoviesParams(query) })
+            .get<PagedResult<MovieSummary>>("/movies/paged", { params: buildMoviesParams(query) })
             .then((res) => res.data),
     getById: (id: number) => apiClient.get<MovieDetails>(`/movies/${id}`).then(res => res.data),
     getHero: async () => {
