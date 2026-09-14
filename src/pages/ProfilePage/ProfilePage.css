@@ -72,6 +72,48 @@
     font-size: 0.85rem;
 }
 
+.profile-password {
+  margin-top: var(--space-4);
+}
+
+.profile-password__toggle {
+  background: none;
+  border: 1px solid var(--surface-border);
+  color: var(--text-primary);
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.profile-password__toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.profile-password__title {
+  margin: 0 0 var(--space-2);
+  font-size: 1.05rem;
+}
+
+.profile-password__actions {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.profile-password__cancel {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.profile-password__cancel:hover {
+  color: var(--text-primary);
+}
+
 .profile-danger {
     margin-top: var(--space-5);
     padding: var(--space-4);
