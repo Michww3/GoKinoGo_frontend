@@ -18,6 +18,7 @@
 }
 
 .home-toolbar__count {
+  margin-left: var(--space-4);
   color: var(--text-muted);
   font-size: 0.9rem;
 }

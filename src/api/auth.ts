@@ -1,12 +1,5 @@
 import { apiClient } from "./client";
-
-export interface User {
-  id: number;
-  name: string;
-  userName: string;
-  email: string;
-  role: string;
-}
+import type { User } from "@/stores/AuthStore";
 
 export interface AuthResponse {
   token: string;
@@ -36,4 +29,7 @@ export const AuthApi = {
     apiClient.get<{ exists: boolean }>(`/Users/check-email?email=${encodeURIComponent(email)}`).then((res) => res.data),
   checkUserName: (userName: string) =>
     apiClient.get<{ exists: boolean }>(`/Users/check-username?userName=${encodeURIComponent(userName)}`).then((res) => res.data),
+  resendConfirmation: () => apiClient.post<void>("/Auth/resend-confirmation").then((res) => res.data),
+  confirmEmail: (token: string) =>
+    apiClient.post<void>("/Auth/confirm-email", { token }).then((res) => res.data),
 };

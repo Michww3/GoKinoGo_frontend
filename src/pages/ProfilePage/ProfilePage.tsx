@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores/StoreContext";
 import { UpdateUserPasswordPayload, UpdateUserPayload, UserApi } from "@/api/user";
 import "./ProfilePage.css";
-import axios from "axios";
+import { getApiErrorMessage } from "@/api/client";
 
 export const ProfilePage = observer(function ProfilePage() {
     const { auth } = useStore();
@@ -41,8 +41,8 @@ export const ProfilePage = observer(function ProfilePage() {
             await auth.updateProfile(form);
             setStatus("saved");
             setTimeout(() => setStatus("idle"), 2000);
-        } catch {
-            setError("Не удалось сохранить изменения");
+        } catch (err) {
+            setError(getApiErrorMessage(err));
             setStatus("idle");
         }
     };
@@ -60,14 +60,7 @@ export const ProfilePage = observer(function ProfilePage() {
                 setIsChangingPassword(false);
             }, 1500);
         } catch (err) {
-            if (axios.isAxiosError(err)) {
-                setPasswordError(
-                    err.response?.data?.message || "Не удалось сменить пароль"
-                );
-            } else {
-                setPasswordError("Не удалось сменить пароль");
-            }
-
+            setPasswordError(getApiErrorMessage(err, "Не удалось сменить пароль. Попробуйте позже."));
             setPasswordStatus("idle");
         }
     };
@@ -95,12 +88,12 @@ export const ProfilePage = observer(function ProfilePage() {
             <form className="profile-form" onSubmit={handleSubmit}>
                 <label>
                     Имя
-                    <input value={form.name} onChange={update("name")} required />
+                    <input value={form.name} onChange={update("name")} required minLength={2}/>
                 </label>
 
                 <label>
                     Логин
-                    <input value={form.userName} onChange={update("userName")} required />
+                    <input value={form.userName} onChange={update("userName")} required minLength={2} maxLength={50}/>
                 </label>
 
                 <label>

@@ -3,17 +3,20 @@ import { tokenStorage } from "@/api/client";
 import { UpdateUserPayload, UserApi } from "@/api/user";
 import { flow, Instance, types } from "mobx-state-tree";
 
-const User = types.model("User", {
+const UserModel = types.model("User", {
   id: types.number,
   name: types.string,
   userName: types.string,
   email: types.string,
   role: types.string,
+  emailConfirmed: types.boolean,
 });
+
+export type User = Instance<typeof UserModel>;
 
 export const AuthStore = types
   .model("AuthStore", {
-    user: types.maybeNull(User),
+    user: types.maybeNull(UserModel),
     isInitialized: types.optional(types.boolean, false),
   })
   .views((self) => ({
@@ -61,6 +64,12 @@ export const AuthStore = types
       if (!self.user) return;
       yield UserApi.update(self.user.id, payload);
       self.user = { ...self.user, ...payload };
+    }),
+    confirmEmail: flow(function* (token: string) {
+      yield AuthApi.confirmEmail(token);
+      if (self.user) {
+        self.user = { ...self.user, emailConfirmed: true };
+      }
     }),
   }));
 

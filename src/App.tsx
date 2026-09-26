@@ -11,6 +11,8 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 import { CartPage } from "./pages/CartPage/CartPage";
 import { MyRatingsPage } from "./pages/MyRatingsPage/MyRatingsPage";
+import { EmailConfirmationBanner } from "./components/layout/EmailConfirmationBanner/EmailConfirmationBanner";
+import { VerifyEmailPage } from "./pages/VerifyEmailPage/VerifyEmailPage";
 
 export const App = observer(function App() {
     const { auth } = useStore();
@@ -25,6 +27,7 @@ export const App = observer(function App() {
     return (
         <BrowserRouter>
             <Header />
+            <EmailConfirmationBanner />
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/movies/:id" element={<MovieDetailsPage />} />
@@ -47,6 +50,7 @@ export const App = observer(function App() {
                         </ProtectedRoute>
                     }
                 />
+                <Route path="/verify-email" element={ <VerifyEmailPage/>}/>
             </Routes>
         </BrowserRouter>
     );

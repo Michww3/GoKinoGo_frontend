@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores/StoreContext";
 import { AuthApi } from "@/api/auth";
 import "./AuthForm.css";
+import { getApiErrorMessage } from "@/api/client";
 
 export const RegisterPage = observer(function RegisterPage() {
   const { auth } = useStore();
@@ -20,7 +21,6 @@ export const RegisterPage = observer(function RegisterPage() {
 
   const validateEmail = async () => {
     if (!form.email.trim()) return;
-
     const exists = await AuthApi.checkEmail(form.email);
 
     if (exists) {
@@ -32,7 +32,6 @@ export const RegisterPage = observer(function RegisterPage() {
 
   const validateUserName = async () => {
     if (!form.userName.trim()) return;
-
     const exists = await AuthApi.checkUserName(form.userName);
 
     if (exists) {
@@ -49,8 +48,8 @@ export const RegisterPage = observer(function RegisterPage() {
     try {
       await auth.register(form);
       navigate("/");
-    } catch {
-      setError("Не удалось зарегистрироваться — проверьте данные");
+    } catch (err) {
+      setError(getApiErrorMessage(err));
     } finally {
       setIsSubmitting(false);
     }
@@ -64,7 +63,13 @@ export const RegisterPage = observer(function RegisterPage() {
         {error && <p className="auth-form__error">{error}</p>}
 
         <div className="auth-form__field">
-        <input placeholder="Имя" value={form.name} onChange={update("name")} required />
+          <input
+            type="text"
+            placeholder="Имя"
+            value={form.name}
+            onChange={update("name")}
+            required minLength={2}
+            maxLength={50} />
         </div>
 
         <div className="auth-form__field">
@@ -75,6 +80,8 @@ export const RegisterPage = observer(function RegisterPage() {
             onChange={update("userName")}
             onBlur={validateUserName}
             required
+            minLength={2}
+            maxLength={50}
           />
 
           {userNameError && <p className="auth-form__error">{userNameError}</p>}

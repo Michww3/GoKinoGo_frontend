@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores/StoreContext";
 import "./AuthForm.css";
+import { getApiErrorMessage } from "@/api/client";
 
 export const LoginPage = observer(function LoginPage() {
   const { auth } = useStore();
@@ -20,8 +21,8 @@ export const LoginPage = observer(function LoginPage() {
     try {
       await auth.login(email, password);
       navigate("/");
-    } catch {
-      setError("Неверный email или пароль");
+    } catch (err) {
+      setError(getApiErrorMessage(err));
     } finally {
       setIsSubmitting(false);
     }
@@ -47,6 +48,8 @@ export const LoginPage = observer(function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          minLength={6}
+          maxLength={100}
         />
 
         <button type="submit" disabled={isSubmitting}>

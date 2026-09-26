@@ -1,5 +1,5 @@
 import { apiClient } from "./client";
-import type { User } from "./auth";
+import type { User } from "@/stores/AuthStore";
 
 export interface Comment {
   id: number;
