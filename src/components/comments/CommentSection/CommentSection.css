@@ -40,6 +40,10 @@
   cursor: pointer;
 }
 
+.comments__form button:hover {
+  background: var(--accent-hover);
+}
+
 .comments__form button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -51,12 +55,12 @@
   padding: var(--space-4) 0;
 }
 
-.comments__login-hint-link{
-    color: var(--text-primary)
+.comments__login-hint-link {
+  color: var(--text-primary)
 }
 
-.comments__login-hint-link:hover{
-    color: var(--text-primary-hover)
+.comments__login-hint-link:hover {
+  color: var(--text-primary-hover)
 }
 
 .comments__list {
@@ -150,4 +154,52 @@
 
 .comment__delete:hover {
   color: #ff6b6b;
+}
+
+.comments__confirm-hint {
+  padding: var(--space-4);
+  border: 1px dashed rgba(240, 180, 41, 0.4);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-5);
+  text-align: center;
+}
+
+.comments__confirm-hint p {
+  margin: 0 0 var(--space-3);
+  color: var(--text-secondary);
+}
+
+.comments__confirm-btn {
+  background: transparent;
+  border: 1px solid #f0b429;
+  color: #f0b429;
+  border-radius: 6px;
+  padding: 8px 18px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.comments__confirm-btn:hover:not(:disabled) {
+  background: rgba(240, 180, 41, 0.12);
+}
+
+.comments__confirm-error {
+  display: block;
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  margin-bottom: var(--space-2);
+  margin-left: auto;
+}
+
+.comments__form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.comments__form-error {
+  color: #ff6b6b;
+  font-size: 0.85rem;
 }

@@ -4,13 +4,18 @@ import { useStore } from "@/stores/StoreContext";
 import { CommentApi, type Comment } from "@/api/comment";
 import "./CommentSection.css";
 import { Link } from "react-router-dom";
+import { useResendConfirmation } from "@/hooks/useResendConfirmation";
+import { getApiErrorMessage } from "@/api/client";
 
 export const CommentSection = observer(function CommentSection({ movieId }: { movieId: number }) {
     const { auth } = useStore();
+    const confirmation = useResendConfirmation();
     const [comments, setComments] = useState<Comment[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [text, setText] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState<string | null>(null);
+
 
     useEffect(() => {
         setIsLoading(true);
@@ -24,14 +29,18 @@ export const CommentSection = observer(function CommentSection({ movieId }: { mo
         if (!text.trim()) return;
 
         setIsSubmitting(true);
+        setSubmitError(null);
         try {
             const created = await CommentApi.create(movieId, text.trim());
             setComments((prev) => [created, ...prev]);
             setText("");
+        } catch (err) {
+            setSubmitError(getApiErrorMessage(err));
         } finally {
             setIsSubmitting(false);
         }
-    }
+    };
+
     const handleLike = async (comment: Comment) => {
         if (!auth.isAuthenticated) return;
 
@@ -68,7 +77,25 @@ export const CommentSection = observer(function CommentSection({ movieId }: { mo
         <section className="comments">
             <h2 className="comments__title">Отзывы ({comments.length})</h2>
 
-            {auth.isAuthenticated ? (
+            {!auth.isAuthenticated ? (
+                <p className="comments__login-hint">
+                    Чтобы оставить отзыв, нужно{" "}
+                    <Link className="comments__login-hint-link" to="/login">войти</Link>
+                    {" "}в аккаунт.
+                </p>
+            ) : !auth.isEmailConfirmed ? (
+                <div className="comments__confirm-hint">
+                    <p>Чтобы оставлять отзывы, подтвердите email.</p>
+                    {confirmation.error && <span className="comments__confirm-error">{confirmation.error}</span>}
+                    <button
+                        className="comments__confirm-btn"
+                        onClick={confirmation.resend}
+                        disabled={confirmation.isDisabled}
+                    >
+                        {confirmation.label}
+                    </button>
+                </div>
+            ) : (
                 <form className="comments__form" onSubmit={handleSubmit}>
                     <textarea
                         placeholder="Поделитесь впечатлением о фильме…"
@@ -76,16 +103,13 @@ export const CommentSection = observer(function CommentSection({ movieId }: { mo
                         onChange={(e) => setText(e.target.value)}
                         rows={3}
                     />
-                    <button type="submit" disabled={isSubmitting || !text.trim()}>
-                        {isSubmitting ? "Отправка…" : "Опубликовать"}
-                    </button>
+                    <div className="comments__form-footer">
+                        {submitError && <span className="comments__form-error">{submitError}</span>}
+                        <button type="submit" disabled={isSubmitting || !text.trim()}>
+                            {isSubmitting ? "Отправка…" : "Опубликовать"}
+                        </button>
+                    </div>
                 </form>
-            ) : (
-                <p className="comments__login-hint">
-                    Чтобы оставить отзыв, нужно{" "}
-                    <Link className="comments__login-hint-link" to="/login">войти</Link>
-                    {" "}в аккаунт.
-                </p>
             )}
 
             {isLoading ? (

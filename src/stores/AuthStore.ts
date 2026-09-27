@@ -25,6 +25,9 @@ export const AuthStore = types
     },
     get isAdmin() {
       return self.user?.role.toLowerCase() === "admin";
+    },
+    get isEmailConfirmed() {
+      return self.user?.emailConfirmed ?? false;
     }
   }))
   .actions((self) => ({
