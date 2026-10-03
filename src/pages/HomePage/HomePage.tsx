@@ -9,6 +9,7 @@ import { useMovieFilters } from "@/hooks/useMovieFilters";
 import { Pagination } from "@/components/pagination/Pagination";
 import { PageSizeSelect } from "@/components/pagination/PaginationSortOptions/PageSizeSelect";
 import { SortSelect } from "@/components/pagination/PaginationSortOptions/SortSelect";
+import { useSearchParams } from "react-router-dom";
 
 export function HomePage() {
     const { filters, updateFilters, toApiQuery } = useMovieFilters();
@@ -16,6 +17,21 @@ export function HomePage() {
     const [isLoading, setIsLoading] = useState(true);
     const [genres, setGenres] = useState<Genre[]>([]);
     const [heroMovies, setHeroMovies] = useState<Movie[]>([]);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const query = searchParams.get("q") ?? "";
+
+    const handleSearch = (value: string) => {
+        setSearchParams(
+            (prev) => {
+                const next = new URLSearchParams(prev);
+                if (value) next.set("q", value);
+                else next.delete("q");
+                next.delete("page");
+                return next;
+            },
+            { replace: true }
+        );
+    };
 
     useEffect(() => {
         GenreApi.getAll().then(setGenres);
@@ -47,6 +63,8 @@ export function HomePage() {
         filters.minRating,
     ]);
 
+
+
     return (
         <div>
             <HeroCarousel movies={heroMovies} />
@@ -55,8 +73,17 @@ export function HomePage() {
 
                 <div className="home-content">
                     <div className="home-toolbar">
-                        <span className="home-toolbar__count">{result ? `${result.totalCount} фильмов` : ""}</span>
-                        <div className="home-toolbar__controls">
+                        <div className="home-toolbar__left">
+                            <input
+                                type="search"
+                                className="home-toolbar__search"
+                                placeholder="Фильтровать по названию"
+                                value={query}
+                                onChange={(e) => handleSearch(e.target.value)}
+                            />
+                            <span className="home-toolbar__count">{result ? `${result.totalCount} фильмов` : ""}</span>
+                        </div>
+                        <div className="home-toolbar__right">
                             <SortSelect value={filters.sort} onChange={(sort) => updateFilters({ sort })} />
                             <PageSizeSelect value={filters.pageSize} onChange={(pageSize) => updateFilters({ pageSize })} />
                         </div>
@@ -77,7 +104,7 @@ export function HomePage() {
                         </>
                     )}
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }

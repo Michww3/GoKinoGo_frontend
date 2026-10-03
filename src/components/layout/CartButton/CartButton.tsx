@@ -1,29 +1,19 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores/StoreContext";
 import CartIcon from "@/img/cart.svg";
 import "./CartButton.css";
 import { Link } from "react-router-dom";
 import BYN_symbol from "@/img/BYN_symbol.svg";
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 export const CartButton = observer(function CartButton() {
   const { cart } = useStore();
   const [isOpen, setIsOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleClickOutside = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isOpen]);
+  const menuRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false));
 
   return (
-    <div className="cart-button" ref={ref}>
+    <div className="cart-button" ref={menuRef}>
       <button className="cart-button__trigger" onClick={() => setIsOpen((v) => !v)} aria-label="Корзина">
         <CartIcon width={22} height={22} />
         {cart.totalItems > 0 && <span className="cart-button__badge">{cart.totalItems}</span>}
@@ -48,7 +38,7 @@ export const CartButton = observer(function CartButton() {
                       </div>
                     </div>
                     <span className="cart-item__price">
-                      {(item.price * item.quantity).toFixed(2)} 
+                      {(item.price * item.quantity).toFixed(2)}
                       <BYN_symbol aria-hidden="true" />
                     </span>
                     <button
@@ -64,7 +54,7 @@ export const CartButton = observer(function CartButton() {
               <div className="cart-button__footer">
                 <span>Итого</span>
                 <span className="cart-button__total">
-                  {cart.totalPrice.toFixed(2)} 
+                  {cart.totalPrice.toFixed(2)}
                   <BYN_symbol aria-hidden="true" />
                 </span>
               </div>

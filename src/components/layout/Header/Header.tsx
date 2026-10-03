@@ -1,14 +1,12 @@
 import { Link, useSearchParams } from "react-router-dom";
 import "./Header.css";
-import { observer } from "mobx-react-lite";
-import { useStore } from "@/stores/StoreContext";
 import { UserMenu } from "../UserMenu/UserMenu";
-import { CartButton } from "../../cart/CartButton/CartButton";
+import { CartButton } from "../CartButton/CartButton";
+import { HeaderSearch } from "../HeaderSearch/HeaderSearch";
 
-export const Header = observer(function Header() {
+export function Header() {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("q") ?? "";
-  const { auth } = useStore();
 
   const handleSearch = (value: string) => {
     setSearchParams(
@@ -31,13 +29,7 @@ export const Header = observer(function Header() {
         <span className="header__logo-letter--red">Go</span>
       </Link>
 
-      <input
-        type="search"
-        className="header__search"
-        placeholder="Найти фильм…"
-        value={query}
-        onChange={(e) => handleSearch(e.target.value)}
-      />
+      <HeaderSearch />
 
       <div className="header__actions">
         <CartButton />
@@ -46,4 +38,4 @@ export const Header = observer(function Header() {
 
     </header>
   );
-})
+}

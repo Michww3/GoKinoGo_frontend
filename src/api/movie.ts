@@ -97,4 +97,6 @@ export const MovieApi = {
         const response = await apiClient.get<MovieCollection>("/MovieCollections/1");
         return response.data.items.map(item => item.movie);
     },
+    search: (searchQuery: string, count = 5) =>
+        apiClient.get<MovieSummary[]>("/Movies/search", { params: { searchQuery, count: count } }).then((res) => res.data),
 };

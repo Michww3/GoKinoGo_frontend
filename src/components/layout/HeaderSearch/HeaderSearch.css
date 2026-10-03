@@ -1,0 +1,111 @@
+.header-search {
+    position: relative;
+    flex: 1;
+    max-width: 360px;
+}
+
+.header-search__input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 999px;
+    padding: 8px 16px;
+    color: var(--text-primary);
+}
+
+.header-search__input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.header-search__dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    z-index: 30;
+    overflow: hidden;
+}
+
+.header-search__status {
+    padding: var(--space-4);
+    margin: 0;
+    color: var(--text-muted);
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.header-search__list {
+    list-style: none;
+    margin: 0;
+    padding: 6px;
+    max-height: 360px;
+    overflow-y: auto;
+}
+
+.header-search__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.header-search__item:hover {
+    background: var(--bg);
+}
+
+.header-search__poster {
+    width: 36px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.header-search__info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.header-search__name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: whitesmoke;
+}
+
+.header-search__year {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.header-search__show-all {
+    display: block;
+    width: 100%;
+    background: var(--bg-elevated, var(--bg));
+    border: none;
+    border-top: 1px solid var(--surface-border);
+    padding: 10px;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-align: center;
+}
+
+.header-search__show-all:hover {
+    background: var(--surface);
+}

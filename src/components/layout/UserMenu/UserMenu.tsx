@@ -1,27 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/stores/StoreContext";
 import LogoutIcon from "@/img/logout.svg";
 import "./UserMenu.css";
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 export const UserMenu = observer(function UserMenu({ className }: { className?: string }) {
     const { auth } = useStore();
+    const menuRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false));
     const [isOpen, setIsOpen] = useState(false);
-    const menuRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        if (!isOpen) return;
-
-        const handleClickOutside = (e: MouseEvent) => {
-            if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-                setIsOpen(false);
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [isOpen]);
 
     if (!auth.isAuthenticated) {
         return (
