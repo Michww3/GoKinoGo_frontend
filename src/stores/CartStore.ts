@@ -53,8 +53,26 @@ export const CartStore = types
       self.guestEmail = null;
       self.items.clear();
     },
-    setGuestEmail(email: string){
+    setGuestEmail(email: string) {
       self.guestEmail = email;
+    },
+    applyValidatedItems(validated: { movieId: number; price: number }[]) {
+      const byId = new Map(validated.map((v) => [v.movieId, v]));
+      const removed: string[] = [];
+      const changed: { name: string; oldPrice: number; newPrice: number }[] = [];
+
+      [...self.items].forEach((item) => {
+        const serverItem = byId.get(item.movieId);
+        if (!serverItem) {
+          removed.push(item.name);
+          self.items.remove(item);
+        } else if (serverItem.price !== item.price) {
+          changed.push({ name: item.name, oldPrice: item.price, newPrice: serverItem.price });
+          item.price = serverItem.price;
+        }
+      });
+
+      return { removed, changed };
     }
   }));
 

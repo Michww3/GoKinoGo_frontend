@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import { CartApi, type CartConflictResponse } from "@/api/cart";
+import { getApiErrorMessage, getErrorResponseData } from "@/api/client";
 import { useStore } from "@/stores/StoreContext";
 import BYN_symbol from "@/img/BYN_symbol.svg";
 import "./CartPage.css";
@@ -11,15 +13,43 @@ export const CartPage = observer(function CartPage() {
     const { cart, auth } = useStore();
     const [isConfirmed, setIsConfirmed] = useState(false);
     const [emailError, setEmailError] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [orderNotice, setOrderNotice] = useState<string | null>(null);
 
-    const handleConfirm = () => {
-        if (!auth.isAuthenticated && !isValidEmail(cart.guestEmail ?? "")) {
+    const handleConfirm = async () => {
+        const email = auth.user?.email ?? cart.guestEmail ?? "";
+
+        if (!auth.isAuthenticated && !isValidEmail(email)) {
             setEmailError("Введите корректный email — на него отправим чек");
             return;
         }
+
         setEmailError(null);
-        cart.clear();
-        setIsConfirmed(true);
+        setOrderNotice(null);
+        setIsSubmitting(true);
+
+        try {
+            await CartApi.sendReceipt({
+                email,
+                userName: auth.user?.name,
+                items: cart.items.map((i) => ({ movieId: i.movieId, quantity: i.quantity, price: i.price })),
+            });
+            cart.clear();
+            setIsConfirmed(true);
+        } catch (err) {
+            const conflict =
+                getErrorResponseData<CartConflictResponse>(err, 409) ??
+                getErrorResponseData<CartConflictResponse>(err, 404);
+
+            if (conflict) {
+                const { removed, changed } = cart.applyValidatedItems(conflict.items);
+                setOrderNotice(buildNotice(removed, changed));
+            } else {
+                setOrderNotice(getApiErrorMessage(err, "Не удалось отправить чек. Попробуйте позже."));
+            }
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     if (isConfirmed) {
@@ -39,6 +69,7 @@ export const CartPage = observer(function CartPage() {
         return (
             <div className="cart-page cart-page--empty">
                 <h1>Корзина пуста</h1>
+                {orderNotice && <p className="cart-page__notice">{orderNotice}</p>}
                 <p className="text-muted">Похоже, вы ещё не выбрали ни одного фильма.</p>
                 <Link to="/" className="cart-page__link">
                     ← К афише
@@ -109,6 +140,12 @@ export const CartPage = observer(function CartPage() {
                 {emailError && <p className="cart-page__email-error">{emailError}</p>}
             </div>
 
+            {orderNotice && (
+                <p className="cart-page__notice" role="alert">
+                    {orderNotice}
+                </p>
+            )}
+
             <div className="cart-page__summary">
                 <span>Итого ({cart.totalItems} шт.)</span>
                 <span className="cart-page__total">
@@ -117,9 +154,27 @@ export const CartPage = observer(function CartPage() {
                 </span>
             </div>
 
-            <button className="cart-page__confirm" onClick={handleConfirm}>
-                Подтвердить заказ
+            <button className="cart-page__confirm" onClick={handleConfirm} disabled={isSubmitting}>
+                {isSubmitting ? "Отправляем чек…" : "Подтвердить заказ"}
             </button>
         </div>
     );
 });
+
+const formatPrice = (n: number) => n.toFixed(2);
+
+function buildNotice(
+    removed: string[],
+    changed: { name: string; oldPrice: number; newPrice: number }[]
+): string {
+    const parts: string[] = [];
+    if (changed.length > 0) {
+        const list = changed.map((c) => `«${c.name}» ${formatPrice(c.oldPrice)} → ${formatPrice(c.newPrice)}`);
+        parts.push(`Цены изменились: ${list.join(", ")}.`);
+    }
+    if (removed.length > 0) {
+        parts.push(`Больше недоступны и удалены из корзины: ${removed.map((n) => `«${n}»`).join(", ")}.`);
+    }
+    parts.push("Проверьте корзину и подтвердите заказ ещё раз.");
+    return parts.join(" ");
+}

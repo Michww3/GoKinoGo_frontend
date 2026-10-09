@@ -36,6 +36,13 @@ export function getApiErrorMessage(error: unknown, options: ApiErrorOptions | st
   return data?.message || data?.title || fallback;
 }
 
+export function getErrorResponseData<T>(error: unknown, status: number): T | null {
+  if (axios.isAxiosError(error) && error.response?.status === status) {
+    return error.response.data as T;
+  }
+  return null;
+}
+
 export const apiClient = axios.create({
     baseURL: "/api",
 });
