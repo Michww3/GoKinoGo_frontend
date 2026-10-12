@@ -166,12 +166,6 @@
   text-decoration: underline;
 }
 
-.cart-page__clear:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 3px;
-  border-radius: 2px;
-}
-
 .cart-page__email {
   display: flex;
   flex-direction: column;

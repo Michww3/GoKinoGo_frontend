@@ -23,6 +23,7 @@ export function FilterSidebar({ genres, filters, onChange }: FilterSidebarProps)
   const [yearDraft, setYearDraft] = useState({ min: filters.minYear, max: filters.maxYear });
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const unchanged =
@@ -30,18 +31,31 @@ export function FilterSidebar({ genres, filters, onChange }: FilterSidebarProps)
       priceDraft.max === filters.maxPrice &&
       yearDraft.min === filters.minYear &&
       yearDraft.max === filters.maxYear;
+
     if (unchanged) return;
 
-    const timeout = setTimeout(() => {
-      onChange({
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    debounceRef.current = setTimeout(() => {
+      onChangeRef.current({
         minPrice: priceDraft.min,
         maxPrice: priceDraft.max,
         minYear: yearDraft.min,
         maxYear: yearDraft.max,
       });
+
+      debounceRef.current = null;
     }, 400);
-    return () => clearTimeout(timeout);
-  }, [priceDraft.min, priceDraft.max, yearDraft.min, yearDraft.max]);
+
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+        debounceRef.current = null;
+      }
+    };
+  }, [priceDraft.min, priceDraft.max, yearDraft.min, yearDraft.max,]);
 
   useEffect(() => {
     setPriceDraft({ min: filters.minPrice, max: filters.maxPrice });
@@ -64,8 +78,14 @@ export function FilterSidebar({ genres, filters, onChange }: FilterSidebarProps)
     filters.minRating != null;
 
   const resetAll = () => {
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+      debounceRef.current = null;
+    }
+
     setPriceDraft({ min: undefined, max: undefined });
     setYearDraft({ min: undefined, max: undefined });
+
     onChange({
       genreIds: [],
       minPrice: undefined,
