@@ -92,6 +92,11 @@
     border-radius: 20px;
 }
 
+.movie-details__genre-chip:hover {
+    background-color: var(--surface-hover);
+    color: var(--text-primary);
+}
+
 .movie-details__description {
     line-height: 1.7;
     color: var(--text-primary);

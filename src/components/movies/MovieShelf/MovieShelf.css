@@ -1,0 +1,27 @@
+.shelf__row {
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding: 6px 2px var(--space-3);
+  margin: -6px -2px 0;
+}
+
+.shelf__item {
+  flex: 0 0 180px;
+  scroll-snap-align: start;
+}
+
+.shelf__skeleton {
+  flex: 0 0 180px;
+  aspect-ratio: 2 / 3;
+  border-radius: var(--radius);
+  background: var(--surface);
+  animation: shelf-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes shelf-pulse {
+  50% {
+    opacity: 0.55;
+  }
+}

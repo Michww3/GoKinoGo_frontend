@@ -1,61 +1,66 @@
-.home-layout {
-  display: flex;
-  gap: var(--space-5);
-  padding-top: var(--space-5);
-  align-items: flex-start;
+.home-page {
+  padding-bottom: var(--space-7);
 }
 
-.home-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.home-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.preset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: var(--space-4);
-  padding-left: var(--space-5);
-  padding-right: var(--space-5);
 }
 
-.home-toolbar__left,
-.home-toolbar__right {
+.preset-tile {
+  position: relative;
   display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.home-toolbar__count {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
-
-.home-toolbar__controls {
-  display: flex;
-  gap: 10px;
-}
-
-.home-toolbar__search {
-  background: var(--surface);
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 120px;
+  padding: var(--space-4);
   border: 1px solid var(--surface-border);
-  border-radius: 6px;
-  padding: 8px 14px;
-  color: var(--text-primary);
-  min-width: 300px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, hsl(var(--hue) 55% 24%), var(--surface) 85%);
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
-.home-toolbar__search:focus {
-  outline: none;
+.preset-tile:hover {
+  transform: translateY(-3px);
+  border-color: hsl(var(--hue) 70% 55%);
+}
+
+.preset-tile__arrow {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-4);
+  font-size: 1.2rem;
+  opacity: 0.6;
+}
+
+.preset-tile__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.preset-tile__subtitle {
+  margin-top: 2px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.genre-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.genre-link {
+  padding: 8px 16px;
+  border: 1px solid var(--surface-border);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 0.9rem;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.genre-link:hover {
   border-color: var(--accent);
-}
-
-@media (max-width: 900px) {
-  .home-layout {
-    flex-direction: column;
-  }
-
-  .filter-sidebar {
-    width: 100%;
-  }
+  color: var(--accent);
 }

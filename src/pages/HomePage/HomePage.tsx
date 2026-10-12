@@ -1,110 +1,90 @@
 import "./HomePage.css";
-import { useState, useEffect } from "react";
-import { type Movie, MovieApi, MovieSummary, PagedResult } from "../../api/movie";
-import { MovieCard } from "@/components/movies/MovieCard/MovieCard";
-import { Genre, GenreApi } from "@/api/genre";
+import { useEffect, useState, type CSSProperties } from "react";
+import { Link } from "react-router-dom";
+import { MovieApi, type Movie } from "@/api/movie";
+import { GenreApi, type Genre } from "@/api/genre";
 import { HeroCarousel } from "@/components/movies/HeroCarousel/HeroCarousel";
-import { FilterSidebar } from "@/components/movies/FilterSidebar/FilterSidebar";
-import { useMovieFilters } from "@/hooks/useMovieFilters";
-import { Pagination } from "@/components/pagination/Pagination";
-import { PageSizeSelect } from "@/components/pagination/PaginationSortOptions/PageSizeSelect";
-import { SortSelect } from "@/components/pagination/PaginationSortOptions/SortSelect";
-import { useSearchParams } from "react-router-dom";
+import { MovieShelf, type ShelfQuery } from "@/components/movies/MovieShelf/MovieShelf";
+import { buildCatalogUrl } from "@/hooks/useMovieFilters";
+
+interface Preset {
+  title: string;
+  subtitle: string;
+  hue: number;
+  to: string;
+}
+
+const PRESETS: Preset[] = [
+  { title: "Лучшее", subtitle: "Рейтинг 8 и выше", hue: 350, to: buildCatalogUrl({ minRating: 8, sort: "ratingDesc" }) },
+  { title: "Новые 2020-е", subtitle: "Фильмы с 2020 года", hue: 210, to: buildCatalogUrl({ minYear: 2020 }) },
+  { title: "Десятые", subtitle: "2010 — 2019", hue: 160, to: buildCatalogUrl({ minYear: 2010, maxYear: 2019 }) },
+  { title: "Классика", subtitle: "До 1999 года", hue: 38, to: buildCatalogUrl({ maxYear: 1999, sort: "ratingDesc" }) },
+];
+
+interface Shelf {
+  id: string;
+  title: string;
+  query: ShelfQuery;
+  seeAllTo: string;
+}
+
+const SHELVES: Shelf[] = [
+  { id: "new", title: "Новинки", query: { sortBy: "dateDesc" }, seeAllTo: buildCatalogUrl({ sort: "dateDesc" }) },
+  { id: "top", title: "Лучшие по рейтингу", query: { sortBy: "ratingDesc" }, seeAllTo: buildCatalogUrl({ sort: "ratingDesc" }) },
+  { id: "added", title: "Недавно добавленные", query: { sortBy: "recentlyAdded" }, seeAllTo: buildCatalogUrl({ sort: "recentlyAdded" }) },
+];
 
 export function HomePage() {
-    const { filters, updateFilters, toApiQuery } = useMovieFilters();
-    const [result, setResult] = useState<PagedResult<MovieSummary> | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [genres, setGenres] = useState<Genre[]>([]);
-    const [heroMovies, setHeroMovies] = useState<Movie[]>([]);
-    const [searchParams, setSearchParams] = useSearchParams();
-    const query = searchParams.get("q") ?? "";
+  const [heroMovies, setHeroMovies] = useState<Movie[]>([]);
+  const [genres, setGenres] = useState<Genre[]>([]);
 
-    const handleSearch = (value: string) => {
-        setSearchParams(
-            (prev) => {
-                const next = new URLSearchParams(prev);
-                if (value) next.set("q", value);
-                else next.delete("q");
-                next.delete("page");
-                return next;
-            },
-            { replace: true }
-        );
-    };
+  useEffect(() => {
+    MovieApi.getHero().then(setHeroMovies).catch(() => setHeroMovies([]));
+    GenreApi.getAll().then(setGenres).catch(() => setGenres([]));
+  }, []);
 
-    useEffect(() => {
-        GenreApi.getAll().then(setGenres);
-        MovieApi.getHero().then(setHeroMovies);
-    }, []);
+  return (
+    <div className="home-page">
+      <HeroCarousel movies={heroMovies} />
 
-    useEffect(() => {
-        setIsLoading(true);
-        const timeout = setTimeout(() => {
-            MovieApi.getPaged(toApiQuery())
-                .then(setResult)
-                .catch((err) => {
-                    console.error("Failed to fetch movies:", err);
-                    setResult(null);
-                })
-                .finally(() => setIsLoading(false));
-        }, 200);
-        return () => clearTimeout(timeout);
-    }, [
-        filters.page,
-        filters.pageSize,
-        filters.q,
-        filters.sort,
-        filters.genreIds.join(","),
-        filters.minPrice,
-        filters.maxPrice,
-        filters.minYear,
-        filters.maxYear,
-        filters.minRating,
-    ]);
+      <section className="section">
+        <div className="section__header">
+          <h2 className="section__title">Подборки</h2>
+          <Link to="/movies" className="section__link">
+            Весь каталог →
+          </Link>
+        </div>
+        <div className="preset-grid">
+          {PRESETS.map((p) => (
+            <Link key={p.title} to={p.to} className="preset-tile" style={{ "--hue": p.hue } as CSSProperties}>
+              <span className="preset-tile__arrow" aria-hidden="true">
+                →
+              </span>
+              <span className="preset-tile__title">{p.title}</span>
+              <span className="preset-tile__subtitle">{p.subtitle}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
+      {SHELVES.map((shelf) => (
+        <MovieShelf key={shelf.id} title={shelf.title} query={shelf.query} seeAllTo={shelf.seeAllTo} />
+      ))}
 
-
-    return (
-        <div>
-            <HeroCarousel movies={heroMovies} />
-            <div className="home-layout container">
-                <FilterSidebar genres={genres} filters={filters} onChange={updateFilters} />
-
-                <div className="home-content">
-                    <div className="home-toolbar">
-                        <div className="home-toolbar__left">
-                            <input
-                                type="search"
-                                className="home-toolbar__search"
-                                placeholder="Фильтровать по названию"
-                                value={query}
-                                onChange={(e) => handleSearch(e.target.value)}
-                            />
-                            <span className="home-toolbar__count">{result ? `${result.totalCount} фильмов` : ""}</span>
-                        </div>
-                        <div className="home-toolbar__right">
-                            <SortSelect value={filters.sort} onChange={(sort) => updateFilters({ sort })} />
-                            <PageSizeSelect value={filters.pageSize} onChange={(pageSize) => updateFilters({ pageSize })} />
-                        </div>
-                    </div>
-
-                    {isLoading ? (
-                        <p className="text-muted">Загрузка…</p>
-                    ) : !result || result.items.length === 0 ? (
-                        <p className="text-muted">Ничего не найдено — попробуйте изменить фильтры.</p>
-                    ) : (
-                        <>
-                            <div className="movie-grid">
-                                {result.items.map((movie) => (
-                                    <MovieCard key={movie.id} movie={movie} />
-                                ))}
-                            </div>
-                            <Pagination page={filters.page} totalPages={result.totalPages} onChange={(page) => updateFilters({ page })} />
-                        </>
-                    )}
-                </div>
-            </div >
-        </div >
-    );
+      {genres.length > 0 && (
+        <section className="section">
+          <div className="section__header">
+            <h2 className="section__title">Жанры</h2>
+          </div>
+          <div className="genre-links">
+            {genres.map((g) => (
+              <Link key={g.id} to={buildCatalogUrl({ genreIds: [g.id] })} className="genre-link">
+                {g.name}
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  );
 }

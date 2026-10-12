@@ -49,6 +49,12 @@
   color: var(--text-muted);
 }
 
+.user-menu__role {
+  margin: 2px 0 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
 .user-menu__item {
   display: flex;
   align-items: center;

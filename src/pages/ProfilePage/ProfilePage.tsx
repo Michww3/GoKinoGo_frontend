@@ -84,7 +84,7 @@ export const ProfilePage = observer(function ProfilePage() {
     return (
         <div className="profile-page">
             <h1>Профиль</h1>
-
+            
             <form className="profile-form" onSubmit={handleSubmit}>
                 <label>
                     Имя

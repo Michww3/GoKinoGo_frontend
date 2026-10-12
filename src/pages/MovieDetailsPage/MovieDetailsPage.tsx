@@ -10,6 +10,7 @@ import { CommentSection } from "@/components/comments/CommentSection/CommentSect
 import { RatingBadge } from "@/components/ratings/RatingBadge/RatingBadge";
 import { UserRating } from "@/components/ratings/UserRating/UserRating"
 import BYN_symbol from "@/img/BYN_symbol.svg";
+import { buildCatalogUrl } from "@/hooks/useMovieFilters";
 
 export const MovieDetailsPage = observer(function MovieDetailsPage() {
   const { id } = useParams<{ id: string }>();
@@ -58,7 +59,7 @@ export const MovieDetailsPage = observer(function MovieDetailsPage() {
 
   return (
     <div className="movie-details">
-      <Link to="/" className="movie-details__back">
+      <Link to="/movies" className="movie-details__back">
         ← К афише
       </Link>
 
@@ -99,9 +100,9 @@ export const MovieDetailsPage = observer(function MovieDetailsPage() {
           {movie.genres.length > 0 && (
             <div className="movie-details__genres">
               {movie.genres.map((g) => (
-                <span key={g.id} className="movie-details__genre-chip">
+                <Link key={g.id} className="movie-details__genre-chip" to={buildCatalogUrl({ genreIds: [g.id] })}>
                   {g.name}
-                </span>
+                </Link>
               ))}
             </div>
           )}

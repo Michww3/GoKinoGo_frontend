@@ -13,6 +13,7 @@ import { CartPage } from "./pages/CartPage/CartPage";
 import { MyRatingsPage } from "./pages/MyRatingsPage/MyRatingsPage";
 import { EmailConfirmationBanner } from "./components/layout/EmailConfirmationBanner/EmailConfirmationBanner";
 import { VerifyEmailPage } from "./pages/VerifyEmailPage/VerifyEmailPage";
+import { CatalogPage } from "./pages/CatalogPage/CatalogPage";
 
 export const App = observer(function App() {
     const { auth } = useStore();
@@ -30,6 +31,7 @@ export const App = observer(function App() {
             <EmailConfirmationBanner />
             <Routes>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/movies" element={<CatalogPage />} />
                 <Route path="/movies/:id" element={<MovieDetailsPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />

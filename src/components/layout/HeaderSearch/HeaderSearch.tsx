@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MovieApi, type MovieSummary } from "@/api/movie";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import { buildCatalogUrl } from "@/hooks/useMovieFilters";
 import "./HeaderSearch.css";
 
 const MIN_QUERY_LENGTH = 2;
@@ -53,7 +54,8 @@ export function HeaderSearch() {
 
   const showAllResults = () => {
     setIsOpen(false);
-    navigate(`/?q=${encodeURIComponent(value.trim())}`);
+    navigate(buildCatalogUrl({ q: value.trim() }));
+    setValue("");
   };
 
   return (

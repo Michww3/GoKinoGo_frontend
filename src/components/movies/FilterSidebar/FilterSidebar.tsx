@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Genre } from "@/api/genre";
 import type { MovieFiltersState } from "@/hooks/useMovieFilters";
 import "./FilterSidebar.css";
@@ -21,8 +21,17 @@ const RATING_OPTIONS = [
 export function FilterSidebar({ genres, filters, onChange }: FilterSidebarProps) {
   const [priceDraft, setPriceDraft] = useState({ min: filters.minPrice, max: filters.maxPrice });
   const [yearDraft, setYearDraft] = useState({ min: filters.minYear, max: filters.maxYear });
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
 
   useEffect(() => {
+    const unchanged =
+      priceDraft.min === filters.minPrice &&
+      priceDraft.max === filters.maxPrice &&
+      yearDraft.min === filters.minYear &&
+      yearDraft.max === filters.maxYear;
+    if (unchanged) return;
+
     const timeout = setTimeout(() => {
       onChange({
         minPrice: priceDraft.min,
@@ -33,6 +42,11 @@ export function FilterSidebar({ genres, filters, onChange }: FilterSidebarProps)
     }, 400);
     return () => clearTimeout(timeout);
   }, [priceDraft.min, priceDraft.max, yearDraft.min, yearDraft.max]);
+
+  useEffect(() => {
+    setPriceDraft({ min: filters.minPrice, max: filters.maxPrice });
+    setYearDraft({ min: filters.minYear, max: filters.maxYear });
+  }, [filters.minPrice, filters.maxPrice, filters.minYear, filters.maxYear]);
 
   const toggleGenre = (id: number) => {
     const next = filters.genreIds.includes(id)

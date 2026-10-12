@@ -22,3 +22,27 @@ a {
   gap: var(--space-5);
   padding: var(--space-5);
 }
+
+.section {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-5) 0;
+}
+
+.section__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.section__title {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.section__link {
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
