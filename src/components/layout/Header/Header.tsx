@@ -15,6 +15,7 @@ export function Header() {
 
       <NavLink
         to="/movies"
+        end
         className={({ isActive }) => `header__nav-link ${isActive ? "header__nav-link--active" : ""}`}
       >
         Каталог

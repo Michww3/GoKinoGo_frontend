@@ -45,12 +45,6 @@
   transition: opacity 0.2s ease;
 }
 
-.movie-card:hover .movie-card__overlay,
-.movie-card:focus-within .movie-card__overlay {
-  opacity: 1;
-  pointer-events: auto;
-}
-
 .movie-card__overlay-title {
   margin: 0;
   font-size: 1.05rem;
@@ -190,4 +184,13 @@
   font-weight: 600;
   font-size: 0.85rem;
   color: white;
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+  .movie-card:hover .movie-card__overlay,
+  .movie-card:focus-within .movie-card__overlay {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }

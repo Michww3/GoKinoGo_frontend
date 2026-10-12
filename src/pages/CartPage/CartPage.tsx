@@ -85,24 +85,39 @@ export const CartPage = observer(function CartPage() {
             <ul className="cart-page__list">
                 {cart.items.map((item) => (
                     <li key={item.movieId} className="cart-page__item">
-                        <Link to={`/movies/${item.movieId}`}>
-                            <img src={item.posterUrl} alt={item.name} className="cart-page__poster" />
+                        <Link
+                            to={`/movies/${item.movieId}`}
+                            className="cart-page__product"
+                        >
+                            <img
+                                src={item.posterUrl}
+                                alt={item.name}
+                                className="cart-page__poster"
+                            />
+
+                            <div className="cart-page__info">
+                                <span className="cart-page__name">
+                                    {item.name}
+                                </span>
+
+                                <span className="cart-page__unit-price">
+                                    {item.price.toFixed(2)}
+                                    <BYN_symbol aria-hidden="true" />
+                                    /шт
+                                </span>
+                            </div>
                         </Link>
 
-                        <div className="cart-page__info">
-                            <Link to={`/movies/${item.movieId}`} className="cart-page__name">
-                                {item.name}
-                            </Link>
-                            <p className="cart-page__unit-price">
-                                {item.price.toFixed(2)}
-                                <BYN_symbol aria-hidden="true" />
-                                /шт</p>
-                        </div>
-
                         <div className="cart-page__qty">
-                            <button onClick={() => cart.setQuantity(item.movieId, item.quantity - 1)}>−</button>
+                            <button onClick={() => cart.setQuantity(item.movieId, item.quantity - 1)}>
+                                −
+                            </button>
+
                             <span>{item.quantity}</span>
-                            <button onClick={() => cart.setQuantity(item.movieId, item.quantity + 1)}>+</button>
+
+                            <button onClick={() => cart.setQuantity(item.movieId, item.quantity + 1)}>
+                                +
+                            </button>
                         </div>
 
                         <span className="cart-page__sum">
@@ -120,6 +135,10 @@ export const CartPage = observer(function CartPage() {
                     </li>
                 ))}
             </ul>
+
+            <button className="cart-page__clear" onClick={() => cart.clear()}>
+                Очистить корзину
+            </button>
 
             <div className="cart-page__email">
                 <label htmlFor="checkout-email">Email для чека</label>

@@ -58,6 +58,9 @@ export const CartButton = observer(function CartButton() {
                   <BYN_symbol aria-hidden="true" />
                 </span>
               </div>
+              <button className="cart-button__clear" onClick={() => cart.clear()}>
+                Очистить корзину
+              </button>
               <Link to="/cart" className="cart-button__checkout" onClick={() => setIsOpen(false)}>
                 Перейти в корзину
               </Link>

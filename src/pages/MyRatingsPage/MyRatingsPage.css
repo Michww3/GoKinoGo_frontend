@@ -31,19 +31,23 @@
 }
 
 .rating-row {
-  display: grid;
-  grid-template-columns: 64px 1fr;
-  gap: var(--space-4);
-  align-items: center;
   background: var(--surface);
   border: 1px solid var(--surface-border);
   border-radius: var(--radius);
   padding: var(--space-3);
 }
 
+.rating-row__link {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: var(--space-4);
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+
 .rating-row:hover {
   border-color: var(--accent);
-  background: var(--surface-hover);
 }
 
 .rating-row__poster {

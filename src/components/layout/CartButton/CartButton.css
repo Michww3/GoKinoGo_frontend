@@ -144,10 +144,31 @@
   color: var(--accent);
 }
 
+.cart-button__clear {
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.15s ease;
+}
+
+.cart-button__clear:hover {
+  color: #ff6b6b;
+}
+
+.cart-button__clear:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
 .cart-button__checkout {
   display: block;
   text-align: center;
-  margin-top: var(--space-3);
+  margin-top: var(--space-2);
   padding: 10px;
   background: var(--accent);
   color: white;

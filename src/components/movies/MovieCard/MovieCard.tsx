@@ -19,7 +19,9 @@ export const MovieCard = observer(function MovieCard({ movie }: MovieCardProps) 
   return (
     <div className="movie-card">
       <div className="movie-card__poster-wrap">
-        <img className="movie-card__poster" src={movie.posterUrl} alt={movie.name} />
+        <Link to={`/movies/${movie.id}`} className="movie-card__poster-link">
+          <img className="movie-card__poster" src={movie.posterUrl} alt={movie.name} />
+        </Link>
 
         <RatingBadge rating={movie.averageRating} type="sm" />
 
