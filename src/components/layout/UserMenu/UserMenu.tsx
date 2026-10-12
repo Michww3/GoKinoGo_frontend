@@ -36,7 +36,7 @@ export const UserMenu = observer(function UserMenu({ className }: { className?: 
                     <div className="user-menu__info">
                         <p className="user-menu__name">{auth.user!.name}</p>
                         <p className="user-menu__email">{auth.user!.email}</p>
-                        <p className="user-menu__role">{auth.user!.role === "admin" ? "Администратор" : "Пользователь"}</p>
+                        <p className="user-menu__role">{auth.isAdmin ? "Администратор" : "Пользователь"}</p>
                     </div>
 
                     <Link to="/profile" className="user-menu__item" onClick={() => setIsOpen(false)}>

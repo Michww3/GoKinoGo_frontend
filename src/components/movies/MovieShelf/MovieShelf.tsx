@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { MovieApi, type MoviesQuery, type MovieSummary } from "@/api/movie";
+import { MovieApi, PageSize, type MoviesQuery, type MovieSummary } from "@/api/movie";
 import { MovieCard } from "../MovieCard/MovieCard";
 import "./MovieShelf.css";
 
@@ -10,7 +10,7 @@ interface MovieShelfProps {
   title: string;
   query: ShelfQuery;
   seeAllTo: string;
-  size?: number;
+  size?: PageSize;
 }
 
 export function MovieShelf({ title, query, seeAllTo, size = 6 }: MovieShelfProps) {
@@ -23,8 +23,9 @@ export function MovieShelf({ title, query, seeAllTo, size = 6 }: MovieShelfProps
       .then((res) => {
         if (!isStale) setMovies(res.items);
       })
-      .catch(() => {
-        if (!isStale) setFailed(true);
+      .catch((err) => {
+        if (isStale) return;
+        setFailed(true);
       });
     return () => {
       isStale = true;
@@ -46,10 +47,10 @@ export function MovieShelf({ title, query, seeAllTo, size = 6 }: MovieShelfProps
       <div className="shelf__row">
         {movies
           ? movies.map((movie) => (
-              <div key={movie.id} className="shelf__item">
-                <MovieCard movie={movie} />
-              </div>
-            ))
+            <div key={movie.id} className="shelf__item">
+              <MovieCard movie={movie} />
+            </div>
+          ))
           : Array.from({ length: size }).map((_, i) => <div key={i} className="shelf__skeleton" />)}
       </div>
     </section>

@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import type { MoviesQuery, MovieSortOption } from "@/api/movie";
+import { type MoviesQuery, type MovieSortOption, DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from "@/api/movie";
 
 export interface MovieFiltersState {
   page: number;
@@ -14,7 +14,6 @@ export interface MovieFiltersState {
   sort: MovieSortOption;
 }
 
-const DEFAULT_PAGE_SIZE = 12;
 const DEFAULT_SORT: MovieSortOption = "dateDesc";
 
 const DEFAULT_FILTERS: MovieFiltersState = {
@@ -54,9 +53,12 @@ export function buildCatalogUrl(patch: Partial<MovieFiltersState> = {}): string 
 export function useMovieFilters() {
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const rawPageSize = Number(searchParams.get("pageSize"));
+  const pageSize = (PAGE_SIZE_OPTIONS as readonly number[]).includes(rawPageSize) ? rawPageSize : DEFAULT_PAGE_SIZE;
+
   const filters: MovieFiltersState = {
     page: Number(searchParams.get("page")) || 1,
-    pageSize: Number(searchParams.get("pageSize")) || DEFAULT_PAGE_SIZE,
+    pageSize: pageSize,
     q: searchParams.get("q") ?? "",
     genreIds: searchParams.get("genres")?.split(",").filter(Boolean).map(Number) ?? [],
     minPrice: parseOptionalNumber(searchParams.get("minPrice")),
