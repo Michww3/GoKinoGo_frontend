@@ -5,6 +5,7 @@ import { useStore } from "@/stores/StoreContext";
 import "./MovieCard.css";
 import { RatingBadge } from "../../ratings/RatingBadge/RatingBadge";
 import BYN_symbol from "@/img/BYN_symbol.svg";
+import { buildCatalogUrl } from "@/hooks/useMovieFilters";
 
 interface MovieCardProps {
   movie: MovieSummary;
@@ -62,9 +63,9 @@ export const MovieCard = observer(function MovieCard({ movie }: MovieCardProps) 
         {movie.genres.length > 0 && (
           <div className="movie-card__genres">
             {movie.genres.slice(0, 3).map((genre) => (
-              <span key={genre.id} className="genre-chip">
+              <Link key={genre.id} to={buildCatalogUrl({ genreIds: [genre.id] })} className="genre-chip">
                 {genre.name}
-              </span>
+              </Link>
             ))}
             {movie.genres.length > 3 && <span className="genre-chip">+{movie.genres.length - 3}</span>}
           </div>

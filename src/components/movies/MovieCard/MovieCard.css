@@ -152,6 +152,11 @@
   color: var(--text-muted);
 }
 
+.genre-chip:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
 .movie-card__qty {
   display: flex;
   align-items: center;
